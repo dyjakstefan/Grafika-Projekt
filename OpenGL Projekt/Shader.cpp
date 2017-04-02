@@ -1,7 +1,6 @@
 #include "Shader.h"
 #include <iostream>
 #include <fstream>
-#include "Shader.h"
 
 static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string & errorMessage);
 static std::string LoadShader(const std::string & fileName);
@@ -24,7 +23,9 @@ Shader::Shader(const std::string & fileName)
 	glValidateProgram(m_program);
 	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Program is invalid: ");
 
-	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
+	m_uniforms[MODEL_U] = glGetUniformLocation(m_program, "model");
+	m_uniforms[VIEW_U] = glGetUniformLocation(m_program, "view");
+	m_uniforms[PROJECTION_U] = glGetUniformLocation(m_program, "projection");
 }
 
 
@@ -43,10 +44,11 @@ void Shader::Bind()
 	glUseProgram(m_program);
 }
 
-void Shader::Update(const Transform& transform)
+void Shader::Update(const Transform& model, const Transform& view, const Projection& projection)
 {
-	glm::mat4 model = transform.GetModel();
-	glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &model[0][0]);
+	glUniformMatrix4fv(m_uniforms[MODEL_U], 1, GL_FALSE, glm::value_ptr(model.GetModel()));
+	glUniformMatrix4fv(m_uniforms[VIEW_U], 1, GL_FALSE, glm::value_ptr(view.GetModel()));
+	glUniformMatrix4fv(m_uniforms[PROJECTION_U], 1, GL_FALSE, glm::value_ptr(projection.GetProjection()));
 }
 
 

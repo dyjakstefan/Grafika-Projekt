@@ -2,7 +2,8 @@
 #include <string>
 #include <GL/glew.h>
 #include "Transform.h"
-
+#include "Projection.h"
+#include <glm/gtc/type_ptr.hpp>
 class Shader
 {
 public:
@@ -10,15 +11,16 @@ public:
 	~Shader();
 
 	void Bind();
-	void Update(const Transform& transform);
+	void Update(const Transform& model, const Transform& view, const Projection& projection);
 
 private:
 	static const unsigned int NUM_SHADERS = 2;
 
 	enum
 	{
-		TRANSFORM_U,
-
+		MODEL_U,
+		VIEW_U,
+		PROJECTION_U,
 		NUM_UNIFORMS
 	};
 

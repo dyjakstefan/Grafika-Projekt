@@ -89,6 +89,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -120,18 +123,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cuboid.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Projection.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="const.h" />
     <ClInclude Include="Cuboid.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Projection.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vertex.h" />

@@ -1,14 +1,18 @@
 #include "Display.h"
 #include "Shader.h"
 #include "Mesh.h"
+#include "Projection.h"
 #include <vector>
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glu32.lib")
 
+
+
 int main(int argc, char** argv)
 {
-	Display display(800, 600, "OpenGL Projekt");
+	Display display(WIDTH, HEIGHT, "OpenGL Projekt");
+	
 	Vertex vertices[] = { Vertex(glm::vec3(0.5, 0.5, 0.5)),
 						Vertex(glm::vec3(0.5, -0.5, 0.5)),
 						Vertex(glm::vec3(-0.5, -0.5, 0.5)),
@@ -35,7 +39,10 @@ int main(int argc, char** argv)
 
 	Shader shader("./res/basicShader");
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices);
-	Transform transform;
+	Transform model;
+	Transform view;
+	view.SetPos(glm::vec3(0.0f, 0.0f, -3.0f));
+	Projection projection;
 
 	float counter = 0.0f;
 
@@ -43,14 +50,13 @@ int main(int argc, char** argv)
 	{
 		display.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 		
-		//transform.GetPos().x = sinf(counter);
-		transform.GetRot().y = counter;
-		transform.GetRot().x = counter;
-		transform.GetRot().z = counter;
-		//transform.SetScale(glm::vec3(cosf(counter), cosf(counter), cosf(counter)));
+		//model.GetPos().x = sinf(counter);
+		model.GetRot().y = counter;
+		model.GetRot().x = counter;
+		model.GetRot().z = counter;
+		//model.SetScale(glm::vec3(cosf(counter) + 1.1, cosf(counter) + 1.1, cosf(counter) + 1.1));
 		shader.Bind();
-		shader.Update(transform);
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		shader.Update(model, view, projection);
 		mesh.Draw();
 		display.Update();
 		counter += 0.01f;
