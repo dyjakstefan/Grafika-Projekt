@@ -128,6 +128,7 @@
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Projection.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="Cuboid.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Mouse.h" />
     <ClInclude Include="Projection.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Transform.h" />

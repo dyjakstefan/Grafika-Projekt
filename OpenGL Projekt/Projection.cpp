@@ -2,7 +2,7 @@
 
 
 
-Projection::Projection(float fov, float zNear, float zFar)
+Projection::Projection(GLfloat fov, GLfloat zNear, GLfloat zFar)
 {
 	m_fov = fov;
 	m_zNear = zNear;
@@ -17,6 +17,6 @@ Projection::~Projection()
 
 glm::mat4 Projection::GetProjection() const
 {
-	glm::mat4 projection = glm::perspective(m_fov, m_aspect, m_zNear, m_zFar);
+	glm::mat4 projection = glm::perspective(glm::radians(m_fov), m_aspect, m_zNear, m_zFar);
 	return projection;
 }

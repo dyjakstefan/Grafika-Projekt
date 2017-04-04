@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include "Transform.h"
 #include "Projection.h"
+#include "Camera.h"
 #include <glm/gtc/type_ptr.hpp>
 class Shader
 {
@@ -11,7 +12,7 @@ public:
 	~Shader();
 
 	void Bind();
-	void Update(const Transform& model, const Transform& view, const Projection& projection);
+	void Update(const Transform& model, const Camera& view, const Projection& projection);
 
 private:
 	static const unsigned int NUM_SHADERS = 2;

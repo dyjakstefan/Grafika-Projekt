@@ -1,11 +1,12 @@
 #pragma once
+#include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include "const.h"
 class Projection
 {
 public:
-	Projection(float fov = glm::radians(45.0f), float zNear = 0.1f, float zFar = 100.0f);
+	Projection(GLfloat fov = glm::radians(45.0f), GLfloat zNear = 0.1f, GLfloat zFar = 100.0f);
 	~Projection();
 
 	float GetFov() { return m_fov; }
@@ -20,9 +21,9 @@ public:
 	glm::mat4 GetProjection() const;
 
 private:
-	float m_fov;
-	float m_aspect;
-	float m_zNear;
-	float m_zFar;
+	GLfloat m_fov;
+	GLfloat m_aspect;
+	GLfloat m_zNear;
+	GLfloat m_zFar;
 };
 

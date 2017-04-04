@@ -1,6 +1,6 @@
 #include "Display.h"
 #include <iostream>
-#include <GL/glew.h>
+
 
 
 Display::Display(int width, int height, const std::string& title)
@@ -52,14 +52,24 @@ void Display::Update()
 	SDL_GL_SwapWindow(m_window);
 
 	SDL_Event e;
-	while(SDL_PollEvent(&e))
+	/*while(SDL_PollEvent(&e))
 	{ 
 		if (e.type == SDL_QUIT)
 			m_isClosed = true;
-	}
+	}*/
 }
 
 bool Display::IsClosed()
 {
 	return m_isClosed;
+}
+
+void Display::Close()
+{
+	m_isClosed = true;
+}
+
+SDL_Window * Display::Window()
+{
+	return m_window;
 }
