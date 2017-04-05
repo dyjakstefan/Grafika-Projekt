@@ -5,9 +5,12 @@
 class Mesh
 {
 public:
-	Mesh(Vertex* vertices, unsigned int numVertices, std::vector<GLuint>  indices);
+	//Mesh(Vertex* vertices, unsigned int numVertices, std::vector<GLuint>  indices);
+	Mesh();
 	~Mesh();
 
+	void Initialize(std::vector<Vertex> vertices, std::vector<GLuint>  indices);
+	//void Initialize(Vertex* vertices, unsigned int numVertices, std::vector<GLuint>  indices);
 	void Draw();
 private:
 

@@ -6,26 +6,13 @@ static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 static std::string LoadShader(const std::string & fileName);
 static GLuint CreateShader(const std::string & text, GLenum shaderType);
 
+Shader::Shader()
+{
+}
+
 Shader::Shader(const std::string & fileName)
 {
-	m_program = glCreateProgram();
-	m_shaders[0] = CreateShader(LoadShader(fileName + ".vs.txt"), GL_VERTEX_SHADER);
-	m_shaders[1] = CreateShader(LoadShader(fileName + ".fs.txt"), GL_FRAGMENT_SHADER);
-
-	for (int i = 0; i < NUM_SHADERS; i++)
-		glAttachShader(m_program, m_shaders[i]);
-
-	glBindAttribLocation(m_program, 0, "position");
-
-	glLinkProgram(m_program);
-	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Program linking failed: ");
-	
-	glValidateProgram(m_program);
-	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Program is invalid: ");
-
-	m_uniforms[MODEL_U] = glGetUniformLocation(m_program, "model");
-	m_uniforms[VIEW_U] = glGetUniformLocation(m_program, "view");
-	m_uniforms[PROJECTION_U] = glGetUniformLocation(m_program, "projection");
+	Initialize(fileName);
 }
 
 
@@ -39,20 +26,42 @@ Shader::~Shader()
 	glDeleteProgram(m_program);
 }
 
+void Shader::Initialize(const std::string & fileName)
+{
+	m_program = glCreateProgram();
+	m_shaders[0] = CreateShader(LoadShader(fileName + ".vs"), GL_VERTEX_SHADER);
+	m_shaders[1] = CreateShader(LoadShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
+
+	for (int i = 0; i < NUM_SHADERS; i++)
+		glAttachShader(m_program, m_shaders[i]);
+
+	glBindAttribLocation(m_program, 0, "position");
+
+	glLinkProgram(m_program);
+	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Program linking failed: ");
+
+	glValidateProgram(m_program);
+	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Program is invalid: ");
+
+	m_uniforms[MODEL_U] = glGetUniformLocation(m_program, "model");
+	m_uniforms[VIEW_U] = glGetUniformLocation(m_program, "view");
+	m_uniforms[PROJECTION_U] = glGetUniformLocation(m_program, "projection");
+}
+
 void Shader::Bind()
 {
 	glUseProgram(m_program);
 }
 
-void Shader::Update(const Transform& model, const Transform& view, const Projection& projection)
+void Shader::Update(const Transform& model, const Camera& camera, const Projection& projection)
 {
 	glUniformMatrix4fv(m_uniforms[MODEL_U], 1, GL_FALSE, glm::value_ptr(model.GetModel()));
-	glUniformMatrix4fv(m_uniforms[VIEW_U], 1, GL_FALSE, glm::value_ptr(view.GetModel()));
+	glUniformMatrix4fv(m_uniforms[VIEW_U], 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
 	glUniformMatrix4fv(m_uniforms[PROJECTION_U], 1, GL_FALSE, glm::value_ptr(projection.GetProjection()));
 }
 
 
-void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string & errorMessage)
+void Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string & errorMessage)
 {
 	GLint success = 0;
 	GLchar error[1024] = { 0 };
@@ -73,7 +82,7 @@ void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::str
 	}
 }
 
-std::string LoadShader(const std::string & fileName)
+std::string Shader::LoadShader(const std::string & fileName)
 {
 	std::fstream file;
 	file.open((fileName).c_str());
@@ -97,7 +106,7 @@ std::string LoadShader(const std::string & fileName)
 	return output;
 }
 
-GLuint CreateShader(const std::string & text, GLenum shaderType)
+GLuint Shader::CreateShader(const std::string & text, GLenum shaderType)
 {
 	GLuint shader = glCreateShader(shaderType);
 
