@@ -1,11 +1,11 @@
 #include <iostream>
 #include "SDL_events.h"
 #include "Display.h"
-#include "Shader.h"
-#include "Mesh.h"
 #include "Projection.h"
 #include "Camera.h"
 #include "Mouse.h"
+#include "Cube.h"
+#include "Cylinder.h"
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glu32.lib")
@@ -15,41 +15,19 @@ int main(int argc, char** argv)
 	Display display(WIDTH, HEIGHT, "OpenGL Projekt");
 	SDL_WarpMouseInWindow(display.Window(), WIDTH / 2, HEIGHT / 2);
 	SDL_Event e;
-	Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+	Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
 	Mouse mouse(WIDTH / 2, HEIGHT / 2);
 
 	GLfloat deltaTime = 0.0f;
 	GLfloat lastFrame = 0.0f;
 
-	Vertex vertices[] = { Vertex(glm::vec3(0.5, 0.5, 0.5)),
-						Vertex(glm::vec3(0.5, -0.5, 0.5)),
-						Vertex(glm::vec3(-0.5, -0.5, 0.5)),
-		Vertex(glm::vec3(-0.5, 0.5, 0.5)),
-		Vertex(glm::vec3(0.5, 0.5, -0.5)),
-		Vertex(glm::vec3(0.5, -0.5, -0.5)),
-		Vertex(glm::vec3(-0.5, -0.5, -0.5)),
-		Vertex(glm::vec3(-0.5, 0.5, -0.5)) };
+	Cube cube;
+	Cube cube2;
+	cube.Model().GetPos().y = -2.0f;
+	cube2.Model().GetPos().y = 2.0f;
 
-	std::vector<GLuint> indices = {
-		0, 3, 2,
-		0, 2, 1,
-		4, 7, 3,
-		4, 3, 0,
-		5, 6, 7,
-		5, 7, 4,
-		1, 2, 6,
-		1, 6, 5,
-		3, 7, 6,
-		3, 6, 2,
-		4, 0, 1,
-		4, 1, 5,	
-	};
-
-	Shader shader("./res/basicShader");
-	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices);
-	Transform model;
-	/*Transform view;
-	view.SetPos(glm::vec3(0.0f, 0.0f, -3.0f));*/
+	Cylinder cylinder(100);
+	
 	Projection projection(camera.m_zoom, 0.1f, 1000.0f);
 
 	float counter = 0.0f;
@@ -72,27 +50,22 @@ int main(int argc, char** argv)
 			if (currentKeyStates[SDL_SCANCODE_UP])
 			{
 				camera.ProcessKeyboard(FORWARD, deltaTime);
-				std::cout << "UP" <<std::endl;
 			}
 			if (currentKeyStates[SDL_SCANCODE_DOWN])
 			{
 				camera.ProcessKeyboard(BACKWARD, deltaTime);
-				std::cout << "DOWN" << std::endl;
 			}
 			if (currentKeyStates[SDL_SCANCODE_LEFT])
 			{
 				camera.ProcessKeyboard(LEFT, deltaTime);
-				std::cout << "LEFT" << std::endl;
 			}
 			if (currentKeyStates[SDL_SCANCODE_RIGHT])
 			{
 				camera.ProcessKeyboard(RIGHT, deltaTime);
-				std::cout << "RIGHT" << std::endl;
 			}
 
 			if (e.type == SDL_MOUSEWHEEL)
 			{
-				std::cout << e.wheel.y <<std::endl;
 				camera.ProcessMouseScroll(e.wheel.y);
 			}
 
@@ -104,19 +77,20 @@ int main(int argc, char** argv)
 				camera.ProcessMouseMovement(offset.x, offset.y);
 			}
 		}
-			
+
 		display.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
-		//model.GetPos().x = sinf(counter);
-		model.GetRot().y = counter;
-		model.GetRot().x = counter;
-		model.GetRot().z = counter;
-		//model.SetScale(glm::vec3(cosf(counter) + 1.1, cosf(counter) + 1.1, cosf(counter) + 1.1));
-		std::cout << camera.m_zoom<<std::endl;
+		cube.SetRot(glm::vec3(counter, counter, counter));
+		cube2.SetPos(glm::vec3(sinf(counter), cube2.GetPos().y, cube2.GetPos().z));
+		cube2.SetScale(glm::vec3(5 * (sinf(counter) + 1), 1, 1));
+		cylinder.SetRot(glm::vec3(counter, counter, counter));
+
 		projection.SetFov(camera.m_zoom);
-		shader.Bind();
-		shader.Update(model, camera, projection);
-		mesh.Draw();
+
+		cube.Draw(camera, projection);
+		cube2.Draw(camera, projection);
+		cylinder.Draw(camera, projection);
+
 		display.Update();
 		counter += 0.01f;
 	}
