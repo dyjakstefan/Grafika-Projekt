@@ -81,8 +81,7 @@ int main(int argc, char** argv)
 		display.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
 		cube.SetRot(glm::vec3(counter, counter, counter));
-		cube2.SetPos(glm::vec3(sinf(counter), cube2.GetPos().y, cube2.GetPos().z));
-		cube2.SetScale(glm::vec3(5 * (sinf(counter) + 1), 1, 1));
+		cube2.SetScale(glm::vec3(5 * (glm::sin(counter) + 1), 1, 1));
 		cylinder.SetRot(glm::vec3(counter, counter, counter));
 
 		projection.SetFov(camera.m_zoom);
