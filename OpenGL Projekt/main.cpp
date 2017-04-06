@@ -43,7 +43,11 @@ int main(int argc, char** argv)
 		
 		while (SDL_PollEvent(&e))
 		{
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+
 			const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+			
 			if (e.type == SDL_QUIT)
 				display.Close();
 
@@ -63,18 +67,25 @@ int main(int argc, char** argv)
 			{
 				camera.ProcessKeyboard(RIGHT, deltaTime);
 			}
-
+			
 			if (e.type == SDL_MOUSEWHEEL)
 			{
 				camera.ProcessMouseScroll(e.wheel.y);
 			}
 
-			int x, y;
-			SDL_GetMouseState(&x, &y);
-			if (mouse.IsPositionChanged(x, y))
+			if (e.button.button == SDL_BUTTON_LEFT)
 			{
-				glm::vec2 offset = mouse.UpdatePosition(x, y);
-				camera.ProcessMouseMovement(offset.x, offset.y);
+				
+				if (mouse.IsPositionChanged(x, y))
+				{
+					glm::vec2 offset = mouse.UpdatePosition(x, y);
+					camera.ProcessMouseMovement(offset.x, offset.y);
+				}
+			}
+			else
+			{
+				mouse.SetPosX(x);
+				mouse.SetPosY(y);
 			}
 		}
 

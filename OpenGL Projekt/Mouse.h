@@ -10,7 +10,8 @@ public:
 
 	bool IsPositionChanged(double xpos, double ypos);
 	glm::vec2 UpdatePosition(double xpos, double ypos);
-
+	void SetPosX(double x);
+	void SetPosY(double y);
 
 	double GetXpos();
 	double GetYpos();

@@ -29,6 +29,16 @@ glm::vec2 Mouse::UpdatePosition(double xpos, double ypos)
 	return glm::vec2(xoffset, yoffset);
 }
 
+void Mouse::SetPosX(double x)
+{
+	m_xpos = x;
+}
+
+void Mouse::SetPosY(double y)
+{
+	m_ypos = y;
+}
+
 double Mouse::GetXpos()
 {
 	return m_xpos;
