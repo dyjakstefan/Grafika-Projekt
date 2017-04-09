@@ -17,12 +17,13 @@ private:
 	enum
 	{
 		POSITION_VB,
+		INDEX_VB,
 		NUM_BUFFERS
 	};
 
 	GLuint m_vertexArrayObject;
 	GLuint m_vertexArrayBuffers[NUM_BUFFERS];
-	GLuint m_elementBufferObject;
+	//GLuint m_elementBufferObject;
 	unsigned int m_drawCount;
 };
 
