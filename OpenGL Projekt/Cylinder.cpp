@@ -52,13 +52,6 @@ Cylinder::Cylinder(int points)
 	indices.push_back(points + 2);
 
 	//Side
-	/*indices.push_back(1);
-	indices.push_back(points + 2 );
-	indices.push_back(points * 2 + 1);
-
-	indices.push_back(points);
-	indices.push_back(1);
-	indices.push_back(points * 2 + 1);*/
 
 	indices.push_back(2 * points + 2);
 	indices.push_back(2 + points * 3);

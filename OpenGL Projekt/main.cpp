@@ -21,13 +21,39 @@ int main(int argc, char** argv)
 	GLfloat deltaTime = 0.0f;
 	GLfloat lastFrame = 0.0f;
 
-	Cube cube;
-	Cube cube2;
-	cube.Model().GetPos().y = -2.0f;
-	cube2.Model().GetPos().y = 2.0f;
+	Cube stol, lozysko_poziome_lewe;
+	Cylinder prowadnica_pionowa_lewa(100), prowadnica_pionowa_prawa(100);
+	Cylinder prowadnica_pozioma_lewa(100), prowadnica_pozioma_prawa(100);
+	Cylinder mala_prowadnica_pozioma1(100), mala_prowadnica_pozioma2(100);
 
-	Cylinder cylinder(100);
-	
+	stol.SetScale(glm::vec3(3.0f, 0.1f, 3.0f));
+
+	prowadnica_pionowa_lewa.Model().GetPos().x = -1.4f;
+	prowadnica_pionowa_lewa.SetScale(glm::vec3(0.1f, 4.0f, 0.1f));
+	prowadnica_pionowa_lewa.Model().GetPos().y = 1.0f;
+
+	prowadnica_pionowa_prawa.Model().GetPos().x = 1.4f;
+	prowadnica_pionowa_prawa.SetScale(glm::vec3(0.1f, 4.0f, 0.1f));
+	prowadnica_pionowa_prawa.Model().GetPos().y = 1.0f;
+
+	prowadnica_pozioma_lewa.Model().GetPos().x = -1.2f;
+	prowadnica_pozioma_lewa.SetScale(glm::vec3(0.1f, 3.0f, 0.1f));
+	prowadnica_pozioma_lewa.Model().GetPos().y = 2.5f;
+	prowadnica_pozioma_lewa.Model().GetRot().x = 1.57f;
+
+	prowadnica_pozioma_prawa.Model().GetPos().x = 1.2f;
+	prowadnica_pozioma_prawa.SetScale(glm::vec3(0.1f, 3.0f, 0.1f));
+	prowadnica_pozioma_prawa.Model().GetPos().y = 2.5f;
+	prowadnica_pozioma_prawa.Model().GetRot().x = 1.57f;
+
+	mala_prowadnica_pozioma1.SetScale(glm::vec3(0.05f, 2.9f, 0.05f));
+	mala_prowadnica_pozioma1.Model().GetRot().z = 1.57f;
+	mala_prowadnica_pozioma1.Model().GetPos().y = 2.5f;
+	mala_prowadnica_pozioma1.Model().GetPos().z = 0.3f;
+
+	lozysko_poziome_lewe.SetScale(glm::vec3(0.2f, 0.2f, 0.4f));
+	lozysko_poziome_lewe.Model().GetPos().x = -1.2f;
+	lozysko_poziome_lewe.Model().GetPos().y = 2.5f;
 	Projection projection(camera.m_zoom, 0.1f, 1000.0f);
 
 	float counter = 0.0f;
@@ -39,7 +65,7 @@ int main(int argc, char** argv)
 		lastFrame = currentFrame * 0, 001;
 		//std::cout << deltaTime << std::endl;
 
-		SDL_PumpEvents();
+		//SDL_PumpEvents();
 		
 		while (SDL_PollEvent(&e))
 		{
@@ -91,15 +117,16 @@ int main(int argc, char** argv)
 
 		display.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
-		cube.SetRot(glm::vec3(counter, counter, counter));
-		cube2.SetScale(glm::vec3(5 * (glm::sin(counter) + 1), 1, 1));
-		cylinder.SetRot(glm::vec3(counter, counter, counter));
-
 		projection.SetFov(camera.m_zoom);
 
-		cube.Draw(camera, projection);
-		cube2.Draw(camera, projection);
-		cylinder.Draw(camera, projection);
+
+		stol.Draw(camera, projection);
+		prowadnica_pionowa_lewa.Draw(camera, projection);
+		prowadnica_pionowa_prawa.Draw(camera, projection);
+		prowadnica_pozioma_lewa.Draw(camera, projection);
+		prowadnica_pozioma_prawa.Draw(camera, projection);
+		mala_prowadnica_pozioma1.Draw(camera, projection);
+		lozysko_poziome_lewe.Draw(camera, projection);
 
 		display.Update();
 		counter += 0.01f;
