@@ -54,6 +54,9 @@
     <ClCompile Include="Cylinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IndexedModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Display.h">
@@ -92,13 +95,22 @@
     <ClInclude Include="Cylinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IndexedModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="res\basicShader.fs">
+    <None Include="res\basicShader.vs">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="res\basicShader.vs">
+    <None Include="res\basicShader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="res\lampShader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="res\lampShader.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

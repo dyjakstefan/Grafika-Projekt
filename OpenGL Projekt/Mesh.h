@@ -1,5 +1,6 @@
 #pragma once
 #include "Vertex.h"
+#include "IndexedModel.h"
 #include <GL/glew.h>
 #include <vector>
 class Mesh
@@ -9,15 +10,18 @@ public:
 	Mesh();
 	~Mesh();
 
-	void Initialize(std::vector<Vertex> vertices, std::vector<GLuint>  indices);
+	void Initialize(std::vector<Vertex> vertices, std::vector<GLuint> indices);
 	//void Initialize(Vertex* vertices, unsigned int numVertices, std::vector<GLuint>  indices);
 	void Draw();
+
 private:
+	IndexedModel model;
 
 	enum
 	{
 		POSITION_VB,
 		INDEX_VB,
+		NORMAL_VB,
 		NUM_BUFFERS
 	};
 

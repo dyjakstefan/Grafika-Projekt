@@ -1,14 +1,14 @@
 #pragma once
 #include "PrimaryObject.h"
+#include <iostream>
 
 class Cube : public PrimaryObject
 {
 public:
-	Cube();
+	Cube(const std::string & shaderName = "basicShader");
 	~Cube();
 
 private:
-	std::vector<Vertex> vertices;
-	std::vector<GLuint> indices;
+	
 };
 

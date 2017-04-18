@@ -30,7 +30,7 @@ void Shader::Initialize(const std::string & fileName)
 {
 	m_program = glCreateProgram();
 	m_shaders[0] = CreateShader(LoadShader(fileName + ".vs"), GL_VERTEX_SHADER);
-	m_shaders[1] = CreateShader(LoadShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
+	m_shaders[1] = CreateShader(LoadShader(fileName + ".frag"), GL_FRAGMENT_SHADER);
 
 	for (int i = 0; i < NUM_SHADERS; i++)
 		glAttachShader(m_program, m_shaders[i]);
@@ -46,6 +46,11 @@ void Shader::Initialize(const std::string & fileName)
 	m_uniforms[MODEL_U] = glGetUniformLocation(m_program, "model");
 	m_uniforms[VIEW_U] = glGetUniformLocation(m_program, "view");
 	m_uniforms[PROJECTION_U] = glGetUniformLocation(m_program, "projection");
+	m_uniforms[OBJECTCOLOR_U] = glGetUniformLocation(m_program, "objectColor");
+	m_uniforms[LIGHTCOLOR_U] = glGetUniformLocation(m_program, "lightColor");
+	m_uniforms[LIGHTPOS_U] = glGetUniformLocation(m_program, "lightPos");
+	m_uniforms[VIEWPOS_U] = glGetUniformLocation(m_program, "viewPos");
+
 }
 
 void Shader::Bind()
@@ -58,6 +63,11 @@ void Shader::Update(const Transform& model, const Camera& camera, const Projecti
 	glUniformMatrix4fv(m_uniforms[MODEL_U], 1, GL_FALSE, glm::value_ptr(model.GetModel()));
 	glUniformMatrix4fv(m_uniforms[VIEW_U], 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
 	glUniformMatrix4fv(m_uniforms[PROJECTION_U], 1, GL_FALSE, glm::value_ptr(projection.GetProjection()));
+	glUniform3f(m_uniforms[OBJECTCOLOR_U], 1.0f, 0.5f, 0.31f);
+	glUniform3f(m_uniforms[LIGHTCOLOR_U], 1.0f, 1.0f, 1.0f);
+	glUniform3f(m_uniforms[LIGHTPOS_U], 10.0f, 3.0f, 0.0f);
+	glUniform3f(m_uniforms[VIEWPOS_U], camera.m_position.x, camera.m_position.y, camera.m_position.z);
+
 }
 
 

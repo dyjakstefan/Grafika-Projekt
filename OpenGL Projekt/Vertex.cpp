@@ -1,14 +1,13 @@
 #include "Vertex.h"
 
-
-
 Vertex::Vertex()
 {
 }
 
-Vertex::Vertex(const glm::vec3& pos)
+Vertex::Vertex(const glm::vec3& pos, const glm::vec3& normal)
 {
-	m_pos = pos;
+	this->pos = pos;
+	this->normal = normal;
 }
 
 

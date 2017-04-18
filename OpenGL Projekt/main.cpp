@@ -31,7 +31,14 @@ int main(int argc, char** argv)
 	Cube bottom1, bottom2, bottom3, bottom4;
 	Cube middle1, middle2, middle3, middle4, middle5, middle6, middle7, middle8;
 	Cube ziemia;
-
+	
+	// LIGHTING
+	
+	Cube lamp("lampShader");
+	lamp.Model().GetPos().x = 10.0f;
+	lamp.Model().GetPos().y = 3.0f;
+	lamp.SetScale(glm::vec3(0.5f));
+	//////////////////////////////////////////
 	ziemia.SetScale(glm::vec3(30.0f, 1.0f, 30.0f));
 	ziemia.Model().GetPos().y = -1.5f;
 
@@ -156,7 +163,7 @@ int main(int argc, char** argv)
 	while (!display.IsClosed())
 	{
 		GLfloat currentFrame = SDL_GetTicks();
-		deltaTime = (currentFrame - lastFrame) * 0.000001;
+		deltaTime = (currentFrame - lastFrame) * 0.000001f;
 		lastFrame = currentFrame * 0, 001;
 		//std::cout << deltaTime << std::endl;
 
@@ -176,44 +183,44 @@ int main(int argc, char** argv)
 			if (currentKeyStates[SDL_SCANCODE_D])
 			{
 				if(glowica.Model().GetPos().x < 0.8)
-					glowica.Model().GetPos().x += 0.01;
+					glowica.Model().GetPos().x += 0.01f;
 			}
 			if (currentKeyStates[SDL_SCANCODE_A])
 			{
 				if (glowica.Model().GetPos().x > -0.8)
-					glowica.Model().GetPos().x -= 0.01;
+					glowica.Model().GetPos().x -= 0.01f;
 			}
 			if (currentKeyStates[SDL_SCANCODE_W])
 			{
 				if (glowica.Model().GetPos().z > -1.31)
 				{
-					glowica.Model().GetPos().z -= 0.01;
-					mala_prowadnica_pozioma1.Model().GetPos().z -= 0.01;
-					mala_prowadnica_pozioma2.Model().GetPos().z -= 0.01;
-					lozysko_poziome_lewe.Model().GetPos().z -= 0.01;
-					lozysko_poziome_prawe.Model().GetPos().z -= 0.01;
+					glowica.Model().GetPos().z -= 0.01f;
+					mala_prowadnica_pozioma1.Model().GetPos().z -= 0.01f;
+					mala_prowadnica_pozioma2.Model().GetPos().z -= 0.01f;
+					lozysko_poziome_lewe.Model().GetPos().z -= 0.01f;
+					lozysko_poziome_prawe.Model().GetPos().z -= 0.01f;
 				}
 			}
 			if (currentKeyStates[SDL_SCANCODE_S])
 			{
 				if (glowica.Model().GetPos().z < 1.31)
 				{
-					glowica.Model().GetPos().z += 0.01;
-					mala_prowadnica_pozioma1.Model().GetPos().z += 0.01;
-					mala_prowadnica_pozioma2.Model().GetPos().z += 0.01;
-					lozysko_poziome_lewe.Model().GetPos().z += 0.01;
-					lozysko_poziome_prawe.Model().GetPos().z += 0.01;
+					glowica.Model().GetPos().z += 0.01f;
+					mala_prowadnica_pozioma1.Model().GetPos().z += 0.01f;
+					mala_prowadnica_pozioma2.Model().GetPos().z += 0.01f;
+					lozysko_poziome_lewe.Model().GetPos().z += 0.01f;
+					lozysko_poziome_prawe.Model().GetPos().z += 0.01f;
 				}
 			}
 			if (currentKeyStates[SDL_SCANCODE_Q])
 			{
 				if (stol.Model().GetPos().y < 1.89)
-					stol.Model().GetPos().y += 0.01;
+					stol.Model().GetPos().y += 0.01f;
 			}
 			if (currentKeyStates[SDL_SCANCODE_E])
 			{
 				if (stol.Model().GetPos().y > -0.45)
-					stol.Model().GetPos().y -= 0.01;
+					stol.Model().GetPos().y -= 0.01f;
 			}
 			//Poruszanie kamer¹
 
@@ -287,6 +294,8 @@ int main(int argc, char** argv)
 		middle8.Draw(camera, projection);
 
 		//OBUDOWA
+
+		lamp.Draw(camera, projection);
 
 		display.Update();
 		//counter += 0.001f;

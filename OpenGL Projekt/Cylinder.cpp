@@ -5,18 +5,18 @@
 Cylinder::Cylinder(int points)
 {
 	vertices.resize(4 * points + 2);
-	vertices[0] = Vertex(glm::vec3(0.0, 0.5, 0.0));
-	vertices[points + 1] = Vertex(glm::vec3(0.0, -0.5, 0.0));
+	vertices[0] = Vertex(glm::vec3(0.0, 0.5, 0.0), glm::vec3(0.0f, 1.0f, 0.0f));
+	vertices[points + 1] = Vertex(glm::vec3(0.0, -0.5, 0.0), glm::vec3(0.0f, -1.0f, 0.0f));
 	for (int i = 1; i <= points; i++)
 	{
 		GLfloat angle = 2 * glm::pi<float>() * i / points;
 		//Top
-		vertices[i] = Vertex(glm::vec3(glm::cos(angle) * 0.5, 0.5, glm::sin(angle) * 0.5));
-		vertices[i + points * 2 + 1] = Vertex(glm::vec3(glm::cos(angle) * 0.5, 0.5, glm::sin(angle) * 0.5));
+		vertices[i] = Vertex(glm::vec3(glm::cos(angle) * 0.5, 0.5, glm::sin(angle) * 0.5), glm::vec3(0.0f, 1.0f, 0.0f));
+		vertices[i + points * 2 + 1] = Vertex(glm::vec3(glm::cos(angle) * 0.5, 0.5, glm::sin(angle) * 0.5), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		//Bottom
-		vertices[i + points + 1] = Vertex(glm::vec3(glm::cos(angle) * 0.5, -0.5, glm::sin(angle) * 0.5));
-		vertices[i + points * 3 + 1] = Vertex(glm::vec3(glm::cos(angle) * 0.5, -0.5, glm::sin(angle) * 0.5));
+		vertices[i + points + 1] = Vertex(glm::vec3(glm::cos(angle) * 0.5, -0.5, glm::sin(angle) * 0.5), glm::vec3(0.0f, -1.0f, 0.0f));
+		vertices[i + points * 3 + 1] = Vertex(glm::vec3(glm::cos(angle) * 0.5, -0.5, glm::sin(angle) * 0.5), glm::vec3(0.0f, -1.0f, 0.0f));
 	}
 
 	for (int j = 1; j < points; j++)
