@@ -12,11 +12,11 @@ Cylinder::Cylinder(int points)
 		GLfloat angle = 2 * glm::pi<float>() * i / points;
 		//Top
 		vertices[i] = Vertex(glm::vec3(glm::cos(angle) * 0.5, 0.5, glm::sin(angle) * 0.5), glm::vec3(0.0f, 1.0f, 0.0f));
-		vertices[i + points * 2 + 1] = Vertex(glm::vec3(glm::cos(angle) * 0.5, 0.5, glm::sin(angle) * 0.5), glm::vec3(0.0f, 1.0f, 0.0f));
+		vertices[i + points * 2 + 1] = Vertex(glm::vec3(glm::cos(angle) * 0.5, 0.5, glm::sin(angle) * 0.5), glm::vec3(glm::cos(angle), 0.0f, glm::sin(angle)));
 
 		//Bottom
 		vertices[i + points + 1] = Vertex(glm::vec3(glm::cos(angle) * 0.5, -0.5, glm::sin(angle) * 0.5), glm::vec3(0.0f, -1.0f, 0.0f));
-		vertices[i + points * 3 + 1] = Vertex(glm::vec3(glm::cos(angle) * 0.5, -0.5, glm::sin(angle) * 0.5), glm::vec3(0.0f, -1.0f, 0.0f));
+		vertices[i + points * 3 + 1] = Vertex(glm::vec3(glm::cos(angle) * 0.5, -0.5, glm::sin(angle) * 0.5), glm::vec3(glm::cos(angle), 0.0f, glm::sin(angle)));
 	}
 
 	for (int j = 1; j < points; j++)
@@ -60,6 +60,11 @@ Cylinder::Cylinder(int points)
 	indices.push_back(points * 3 + 1);
 	indices.push_back(2 * points + 2);
 	indices.push_back(points * 4 + 1);
+
+	material.ambient = glm::vec3(0.25f, 0.25f, 0.25f);
+	material.diffuse = glm::vec3(0.4f, 0.4f, 0.4f);
+	material.specular = glm::vec3(0.774f, 0.774f, 0.774f);
+	material.shininess = 0.6f;
 
 	m_shader.Initialize("./res/basicShader");
 	m_mesh.Initialize(vertices, indices);

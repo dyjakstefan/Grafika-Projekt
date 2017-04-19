@@ -14,7 +14,7 @@ PrimaryObject::~PrimaryObject()
 void PrimaryObject::Draw(Camera view, Projection projection)
 {
 	m_shader.Bind();
-	m_shader.Update(m_transform, view, projection);
+	m_shader.Update(m_transform, view, projection, material);
 	m_mesh.Draw();
 }
 

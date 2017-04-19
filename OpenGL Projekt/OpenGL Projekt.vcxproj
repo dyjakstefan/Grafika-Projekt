@@ -129,6 +129,7 @@
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="IndexedModel.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="PrimaryObject.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="IndexedModel.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="PrimaryObject.h" />

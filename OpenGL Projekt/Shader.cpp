@@ -46,11 +46,16 @@ void Shader::Initialize(const std::string & fileName)
 	m_uniforms[MODEL_U] = glGetUniformLocation(m_program, "model");
 	m_uniforms[VIEW_U] = glGetUniformLocation(m_program, "view");
 	m_uniforms[PROJECTION_U] = glGetUniformLocation(m_program, "projection");
-	m_uniforms[OBJECTCOLOR_U] = glGetUniformLocation(m_program, "objectColor");
 	m_uniforms[LIGHTCOLOR_U] = glGetUniformLocation(m_program, "lightColor");
 	m_uniforms[LIGHTPOS_U] = glGetUniformLocation(m_program, "lightPos");
 	m_uniforms[VIEWPOS_U] = glGetUniformLocation(m_program, "viewPos");
-
+	m_uniforms[M_AMBIENT_U] = glGetUniformLocation(m_program, "material.ambient");
+	m_uniforms[M_DIFFUSE_U] = glGetUniformLocation(m_program, "material.diffuse");
+	m_uniforms[M_SPECULAR_U] = glGetUniformLocation(m_program, "material.specular");
+	m_uniforms[M_SHININESS_U] = glGetUniformLocation(m_program, "material.shininess");
+	m_uniforms[L_AMBIENT_U] = glGetUniformLocation(m_program, "light.ambient");
+	m_uniforms[L_DIFFUSE_U] = glGetUniformLocation(m_program, "light.diffuse");
+	m_uniforms[L_SPECULAR_U] = glGetUniformLocation(m_program, "light.specular");
 }
 
 void Shader::Bind()
@@ -58,16 +63,21 @@ void Shader::Bind()
 	glUseProgram(m_program);
 }
 
-void Shader::Update(const Transform& model, const Camera& camera, const Projection& projection)
+void Shader::Update(const Transform& model, const Camera& camera, const Projection& projection, const Material material)
 {
 	glUniformMatrix4fv(m_uniforms[MODEL_U], 1, GL_FALSE, glm::value_ptr(model.GetModel()));
 	glUniformMatrix4fv(m_uniforms[VIEW_U], 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
 	glUniformMatrix4fv(m_uniforms[PROJECTION_U], 1, GL_FALSE, glm::value_ptr(projection.GetProjection()));
-	glUniform3f(m_uniforms[OBJECTCOLOR_U], 1.0f, 0.5f, 0.31f);
 	glUniform3f(m_uniforms[LIGHTCOLOR_U], 1.0f, 1.0f, 1.0f);
 	glUniform3f(m_uniforms[LIGHTPOS_U], 10.0f, 3.0f, 0.0f);
 	glUniform3f(m_uniforms[VIEWPOS_U], camera.m_position.x, camera.m_position.y, camera.m_position.z);
-
+	glUniform3f(m_uniforms[M_AMBIENT_U], material.ambient.x, material.ambient.y, material.ambient.z);
+	glUniform3f(m_uniforms[M_DIFFUSE_U], material.diffuse.x, material.diffuse.y, material.diffuse.z);
+	glUniform3f(m_uniforms[M_SPECULAR_U], material.specular.x, material.specular.y, material.specular.z);
+	glUniform1f(m_uniforms[M_SHININESS_U], material.shininess);
+	glUniform3f(m_uniforms[L_AMBIENT_U], 0.2f, 0.2f, 0.2f);
+	glUniform3f(m_uniforms[L_DIFFUSE_U], 0.5f, 0.5f, 0.5f);
+	glUniform3f(m_uniforms[L_SPECULAR_U], 1.0f, 1.0f, 1.0f);
 }
 
 

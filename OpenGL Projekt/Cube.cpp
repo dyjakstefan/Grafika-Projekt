@@ -58,6 +58,10 @@ Cube::Cube(const std::string & shaderName)
 		23, 21, 22,
 	};
 
+	material.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
+	material.diffuse = glm::vec3(0.1f, 0.35f, 0.1f);
+	material.specular = glm::vec3(0.45f, 0.55f, 0.45f);
+	material.shininess = 0.25f;
 	m_shader.Initialize("./res/" + shaderName);
 	m_mesh.Initialize(vertices, indices);
 }

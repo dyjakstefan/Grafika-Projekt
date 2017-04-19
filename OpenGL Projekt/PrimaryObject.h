@@ -2,6 +2,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Transform.h"
+#include "Material.h"
 
 class PrimaryObject
 {
@@ -24,5 +25,6 @@ protected:
 	Transform m_transform;
 	Mesh m_mesh;
 	Shader m_shader;
+	Material material;
 };
 

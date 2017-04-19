@@ -21,7 +21,6 @@ int main(int argc, char** argv)
 	GLfloat deltaTime = 0.0f;
 	GLfloat lastFrame = 0.0f;
 
-	Cylinder cylinder(100);
 	Cylinder prowadnica_pionowa_lewa(100), prowadnica_pionowa_prawa(100);
 	Cylinder prowadnica_pozioma_lewa(100), prowadnica_pozioma_prawa(100);
 	Cylinder mala_prowadnica_pozioma1(100), mala_prowadnica_pozioma2(100);
