@@ -21,25 +21,20 @@ int main(int argc, char** argv)
 	GLfloat deltaTime = 0.0f;
 	GLfloat lastFrame = 0.0f;
 
-	Cylinder prowadnica_pionowa_lewa(100), prowadnica_pionowa_prawa(100);
-	Cylinder prowadnica_pozioma_lewa(100), prowadnica_pozioma_prawa(100);
-	Cylinder mala_prowadnica_pozioma1(100), mala_prowadnica_pozioma2(100);
+	Cylinder prowadnica_pionowa_lewa(15), prowadnica_pionowa_prawa(15);
+	Cylinder prowadnica_pozioma_lewa(15), prowadnica_pozioma_prawa(15);
+	Cylinder mala_prowadnica_pozioma1(15), mala_prowadnica_pozioma2(15);
 
 
 	Cube stol, podloga, lozysko_poziome_lewe, lozysko_poziome_prawe, glowica;
 	Cube bottom1, bottom2, bottom3, bottom4;
 	Cube middle1, middle2, middle3, middle4, middle5, middle6, middle7, middle8;
 	Cube ziemia;
-	
-	// LIGHTING
-	
-	Cube lamp("lampShader");
-	lamp.Model().GetPos().x = 10.0f;
-	lamp.Model().GetPos().y = 3.0f;
-	lamp.SetScale(glm::vec3(0.5f));
-	//////////////////////////////////////////
+
 	ziemia.SetScale(glm::vec3(30.0f, 1.0f, 30.0f));
 	ziemia.Model().GetPos().y = -1.5f;
+	ziemia.SetMaterial(Material(glm::vec3(0.2, 0.3, 0.3), glm::vec3(0.35, 0.45, 0.45), glm::vec3(0.5, 0.5, 0.5), 25));
+
 
 	stol.SetScale(glm::vec3(3.0f, 0.1f, 3.0f));
 
@@ -261,7 +256,8 @@ int main(int argc, char** argv)
 			}
 		}
 
-		display.Clear(0.2f, 0.3f, 0.3f, 1.0f);
+		//display.Clear(0.2f, 0.3f, 0.3f, 1.0f);
+		display.Clear(0.85f, 0.98f, 0.98f, 1.0f);
 
 		projection.SetFov(camera.m_zoom);
 
@@ -293,8 +289,6 @@ int main(int argc, char** argv)
 		middle8.Draw(camera, projection);
 
 		//OBUDOWA
-
-		lamp.Draw(camera, projection);
 
 		display.Update();
 		//counter += 0.001f;

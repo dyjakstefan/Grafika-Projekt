@@ -46,16 +46,49 @@ void Shader::Initialize(const std::string & fileName)
 	m_uniforms[MODEL_U] = glGetUniformLocation(m_program, "model");
 	m_uniforms[VIEW_U] = glGetUniformLocation(m_program, "view");
 	m_uniforms[PROJECTION_U] = glGetUniformLocation(m_program, "projection");
-	m_uniforms[LIGHTCOLOR_U] = glGetUniformLocation(m_program, "lightColor");
-	m_uniforms[LIGHTPOS_U] = glGetUniformLocation(m_program, "lightPos");
 	m_uniforms[VIEWPOS_U] = glGetUniformLocation(m_program, "viewPos");
 	m_uniforms[M_AMBIENT_U] = glGetUniformLocation(m_program, "material.ambient");
 	m_uniforms[M_DIFFUSE_U] = glGetUniformLocation(m_program, "material.diffuse");
 	m_uniforms[M_SPECULAR_U] = glGetUniformLocation(m_program, "material.specular");
 	m_uniforms[M_SHININESS_U] = glGetUniformLocation(m_program, "material.shininess");
-	m_uniforms[L_AMBIENT_U] = glGetUniformLocation(m_program, "light.ambient");
-	m_uniforms[L_DIFFUSE_U] = glGetUniformLocation(m_program, "light.diffuse");
-	m_uniforms[L_SPECULAR_U] = glGetUniformLocation(m_program, "light.specular");
+
+	m_uniforms[L_DIRECTION_U] = glGetUniformLocation(m_program, "dirLight.direction");
+	m_uniforms[L_AMBIENT_U] = glGetUniformLocation(m_program, "dirLight.ambient");
+	m_uniforms[L_DIFFUSE_U] = glGetUniformLocation(m_program, "dirLight.diffuse");
+	m_uniforms[L_SPECULAR_U] = glGetUniformLocation(m_program, "dirLight.specular");
+	
+	m_uniforms[L_POSITION_0_U] = glGetUniformLocation(m_program, "pointLights[0].position");
+	m_uniforms[L_AMBIENT_0_U] = glGetUniformLocation(m_program, "pointLights[0].ambient");
+	m_uniforms[L_DIFFUSE_0_U] = glGetUniformLocation(m_program, "pointLights[0].diffuse");
+	m_uniforms[L_SPECULAR_0_U] = glGetUniformLocation(m_program, "pointLights[0].specular");
+	m_uniforms[L_CONSTANT_0_U] = glGetUniformLocation(m_program, "pointLights[0].constant");
+	m_uniforms[L_LINEAR_0_U] = glGetUniformLocation(m_program, "pointLights[0].linear");
+	m_uniforms[L_QUADRATIC_0_U] = glGetUniformLocation(m_program, "pointLights[0].quadratic");
+
+	m_uniforms[L_POSITION_1_U] = glGetUniformLocation(m_program, "pointLights[1].position");
+	m_uniforms[L_AMBIENT_1_U] = glGetUniformLocation(m_program, "pointLights[1].ambient");
+	m_uniforms[L_DIFFUSE_1_U] = glGetUniformLocation(m_program, "pointLights[1].diffuse");
+	m_uniforms[L_SPECULAR_1_U] = glGetUniformLocation(m_program, "pointLights[1].specular");
+	m_uniforms[L_CONSTANT_1_U] = glGetUniformLocation(m_program, "pointLights[1].constant");
+	m_uniforms[L_LINEAR_1_U] = glGetUniformLocation(m_program, "pointLights[1].linear");
+	m_uniforms[L_QUADRATIC_1_U] = glGetUniformLocation(m_program, "pointLights[1].quadratic");
+
+	m_uniforms[L_POSITION_2_U] = glGetUniformLocation(m_program, "pointLights[2].position");
+	m_uniforms[L_AMBIENT_2_U] = glGetUniformLocation(m_program, "pointLights[2].ambient");
+	m_uniforms[L_DIFFUSE_2_U] = glGetUniformLocation(m_program, "pointLights[2].diffuse");
+	m_uniforms[L_SPECULAR_2_U] = glGetUniformLocation(m_program, "pointLights[2].specular");
+	m_uniforms[L_CONSTANT_2_U] = glGetUniformLocation(m_program, "pointLights[2].constant");
+	m_uniforms[L_LINEAR_2_U] = glGetUniformLocation(m_program, "pointLights[2].linear");
+	m_uniforms[L_QUADRATIC_2_U] = glGetUniformLocation(m_program, "pointLights[2].quadratic");
+
+	m_uniforms[L_POSITION_3_U] = glGetUniformLocation(m_program, "pointLights[3].position");
+	m_uniforms[L_AMBIENT_3_U] = glGetUniformLocation(m_program, "pointLights[3].ambient");
+	m_uniforms[L_DIFFUSE_3_U] = glGetUniformLocation(m_program, "pointLights[3].diffuse");
+	m_uniforms[L_SPECULAR_3_U] = glGetUniformLocation(m_program, "pointLights[3].specular");
+	m_uniforms[L_CONSTANT_3_U] = glGetUniformLocation(m_program, "pointLights[3].constant");
+	m_uniforms[L_LINEAR_3_U] = glGetUniformLocation(m_program, "pointLights[3].linear");
+	m_uniforms[L_QUADRATIC_3_U] = glGetUniformLocation(m_program, "pointLights[3].quadratic");
+
 }
 
 void Shader::Bind()
@@ -68,16 +101,48 @@ void Shader::Update(const Transform& model, const Camera& camera, const Projecti
 	glUniformMatrix4fv(m_uniforms[MODEL_U], 1, GL_FALSE, glm::value_ptr(model.GetModel()));
 	glUniformMatrix4fv(m_uniforms[VIEW_U], 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
 	glUniformMatrix4fv(m_uniforms[PROJECTION_U], 1, GL_FALSE, glm::value_ptr(projection.GetProjection()));
-	glUniform3f(m_uniforms[LIGHTCOLOR_U], 1.0f, 1.0f, 1.0f);
-	glUniform3f(m_uniforms[LIGHTPOS_U], 10.0f, 3.0f, 0.0f);
 	glUniform3f(m_uniforms[VIEWPOS_U], camera.m_position.x, camera.m_position.y, camera.m_position.z);
 	glUniform3f(m_uniforms[M_AMBIENT_U], material.ambient.x, material.ambient.y, material.ambient.z);
 	glUniform3f(m_uniforms[M_DIFFUSE_U], material.diffuse.x, material.diffuse.y, material.diffuse.z);
 	glUniform3f(m_uniforms[M_SPECULAR_U], material.specular.x, material.specular.y, material.specular.z);
 	glUniform1f(m_uniforms[M_SHININESS_U], material.shininess);
+
+	glUniform3f(m_uniforms[L_DIRECTION_U], -0.2f, -1.0f, -0.3f);
 	glUniform3f(m_uniforms[L_AMBIENT_U], 0.2f, 0.2f, 0.2f);
 	glUniform3f(m_uniforms[L_DIFFUSE_U], 0.5f, 0.5f, 0.5f);
 	glUniform3f(m_uniforms[L_SPECULAR_U], 1.0f, 1.0f, 1.0f);
+
+	glUniform3f(m_uniforms[L_POSITION_0_U], 1.5f, 3.5f, 1.5f);
+	glUniform3f(m_uniforms[L_AMBIENT_0_U], 0.05f, 0.05f, 0.05f);
+	glUniform3f(m_uniforms[L_DIFFUSE_0_U], 0.8f, 0.8f, 0.8f);
+	glUniform3f(m_uniforms[L_SPECULAR_0_U], 1.0f, 1.0f, 1.0f);
+	glUniform1f(m_uniforms[L_CONSTANT_0_U], 1.0f);
+	glUniform1f(m_uniforms[L_LINEAR_0_U], 0.09);
+	glUniform1f(m_uniforms[L_QUADRATIC_0_U], 0.032);
+
+	glUniform3f(m_uniforms[L_POSITION_1_U], -1.5f, 3.5f, 1.5f);
+	glUniform3f(m_uniforms[L_AMBIENT_1_U], 0.05f, 0.05f, 0.05f);
+	glUniform3f(m_uniforms[L_DIFFUSE_1_U], 0.8f, 0.8f, 0.8f);
+	glUniform3f(m_uniforms[L_SPECULAR_1_U], 1.0f, 1.0f, 1.0f);
+	glUniform1f(m_uniforms[L_CONSTANT_1_U], 1.0f);
+	glUniform1f(m_uniforms[L_LINEAR_1_U], 0.09);
+	glUniform1f(m_uniforms[L_QUADRATIC_1_U], 0.032);
+
+	glUniform3f(m_uniforms[L_POSITION_2_U], 1.5f, 3.5f, -1.5f);
+	glUniform3f(m_uniforms[L_AMBIENT_2_U], 0.05f, 0.05f, 0.05f);
+	glUniform3f(m_uniforms[L_DIFFUSE_2_U], 0.8f, 0.8f, 0.8f);
+	glUniform3f(m_uniforms[L_SPECULAR_2_U], 1.0f, 1.0f, 1.0f);
+	glUniform1f(m_uniforms[L_CONSTANT_2_U], 1.0f);
+	glUniform1f(m_uniforms[L_LINEAR_2_U], 0.09);
+	glUniform1f(m_uniforms[L_QUADRATIC_2_U], 0.032);
+
+	glUniform3f(m_uniforms[L_POSITION_3_U], -1.5f, 3.5f, -1.5f);
+	glUniform3f(m_uniforms[L_AMBIENT_3_U], 0.05f, 0.05f, 0.05f);
+	glUniform3f(m_uniforms[L_DIFFUSE_3_U], 0.8f, 0.8f, 0.8f);
+	glUniform3f(m_uniforms[L_SPECULAR_3_U], 1.0f, 1.0f, 1.0f);
+	glUniform1f(m_uniforms[L_CONSTANT_3_U], 1.0f);
+	glUniform1f(m_uniforms[L_LINEAR_3_U], 0.09);
+	glUniform1f(m_uniforms[L_QUADRATIC_3_U], 0.032);
 }
 
 

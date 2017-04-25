@@ -13,27 +13,35 @@ PrimaryObject::~PrimaryObject()
 
 void PrimaryObject::Draw(Camera view, Projection projection)
 {
-	m_shader.Bind();
-	m_shader.Update(m_transform, view, projection, material);
-	m_mesh.Draw();
+	shader.Bind();
+	shader.Update(transform, view, projection, material);
+	mesh.Draw();
 }
 
 Transform& PrimaryObject::Model()
 {
-	return m_transform;
+	return transform;
 }
 
 void PrimaryObject::SetPos(const glm::vec3 & pos)
 {
-	m_transform.SetPos(pos);
+	transform.SetPos(pos);
 }
 
 void PrimaryObject::SetRot(const glm::vec3 & rot)
 {
-	m_transform.SetRot(rot);
+	transform.SetRot(rot);
 }
 
 void PrimaryObject::SetScale(const glm::vec3 & scale)
 {
-	m_transform.SetScale(scale);
+	transform.SetScale(scale);
+}
+
+void PrimaryObject::SetMaterial(const Material material)
+{
+	this->material.ambient = material.ambient;
+	this->material.diffuse = material.diffuse;
+	this->material.specular = material.specular;
+	this->material.shininess = material.shininess;
 }

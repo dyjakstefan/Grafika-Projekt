@@ -16,15 +16,17 @@ public:
 	void SetPos(const glm::vec3& pos);
 	void SetRot(const glm::vec3& rot);
 	void SetScale(const glm::vec3& scale);
+	void SetMaterial(const Material material);
 
-	glm::vec3 GetPos() { return m_transform.GetPos(); }
-	glm::vec3 GetRot() { return m_transform.GetRot(); }
-	glm::vec3 GetScale() { return m_transform.GetScale(); }
+	glm::vec3 GetPos() { return transform.GetPos(); }
+	glm::vec3 GetRot() { return transform.GetRot(); }
+	glm::vec3 GetScale() { return transform.GetScale(); }
+	Material GetMaterial() { return material; }
 
 protected:
-	Transform m_transform;
-	Mesh m_mesh;
-	Shader m_shader;
+	Transform transform;
+	Mesh mesh;
+	Shader shader;
 	Material material;
 };
 

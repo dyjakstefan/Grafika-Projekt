@@ -64,10 +64,10 @@ Cylinder::Cylinder(int points)
 	material.ambient = glm::vec3(0.25f, 0.25f, 0.25f);
 	material.diffuse = glm::vec3(0.4f, 0.4f, 0.4f);
 	material.specular = glm::vec3(0.774f, 0.774f, 0.774f);
-	material.shininess = 0.6f;
+	material.shininess = 60.0f;
 
-	m_shader.Initialize("./res/basicShader");
-	m_mesh.Initialize(vertices, indices);
+	shader.Initialize("./res/basicShader");
+	mesh.Initialize(vertices, indices);
 }
 
 

@@ -132,6 +132,7 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="PrimaryObject.cpp" />
     <ClCompile Include="Projection.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="PrimaryObject.h" />
     <ClInclude Include="Projection.h" />
     <ClInclude Include="Shader.h" />
