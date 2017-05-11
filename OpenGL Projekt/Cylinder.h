@@ -4,7 +4,7 @@
 class Cylinder : public PrimaryObject
 {
 public:
-	Cylinder(int points = 10);
+	Cylinder(int points = 15);
 	~Cylinder();
 
 protected:

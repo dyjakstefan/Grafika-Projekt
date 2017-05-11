@@ -12,7 +12,7 @@ public:
 
 	void Initialize(std::vector<Vertex> vertices, std::vector<GLuint> indices);
 	//void Initialize(Vertex* vertices, unsigned int numVertices, std::vector<GLuint>  indices);
-	void Draw();
+	void Draw(int type = 0);
 
 private:
 	IndexedModel model;

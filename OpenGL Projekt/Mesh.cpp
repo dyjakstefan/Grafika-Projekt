@@ -71,12 +71,14 @@ void Mesh::Initialize(std::vector<Vertex> vertices, std::vector<GLuint> indices)
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw()
+void Mesh::Draw(int type)
 {
 	glBindVertexArray(m_vertexArrayObject);
 
-	//glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
-	glDrawElementsBaseVertex(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0, 0);
+	if(type == 0)
+		glDrawElementsBaseVertex(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0, 0);
+	else if(type == 1)
+		glDrawElementsBaseVertex(GL_LINES, m_drawCount, GL_UNSIGNED_INT, 0, 0);
 
 	glBindVertexArray(0);
 	/*glBindVertexArray(m_lightVAO);
