@@ -28,9 +28,9 @@ int main(int argc, char** argv)
 	while (!display.IsClosed())
 	{
 		GLfloat currentFrame = SDL_GetTicks();
-		deltaTime = (currentFrame - lastFrame) * 0.000001f;
-		lastFrame = currentFrame * 0, 001;
-		//std::cout << deltaTime << std::endl;
+		deltaTime = (currentFrame - lastFrame) * 0.001;
+		lastFrame = currentFrame;
+		std::cout << lastFrame << std::endl;
 
 		SDL_PumpEvents();
 		

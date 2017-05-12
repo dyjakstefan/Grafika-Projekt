@@ -175,6 +175,7 @@ void ObjectManager::Draw(Camera view, Projection projection)
 void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 {
 	GLfloat velocity = movementSpeed * deltaTime;
+
 	if (currentKeyStates[SDL_SCANCODE_D])
 	{
 		if (glowica.Model().GetPos().x < 0.8)
