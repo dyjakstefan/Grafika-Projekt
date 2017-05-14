@@ -56,7 +56,7 @@ ObjectManager::ObjectManager()
 
 	bottom1.Model().GetPos().z = 1.6f;
 	bottom1.Model().GetPos().y = 3.3f;
-	bottom1.SetScale(glm::vec3(3.25f, 0.5f, 0.1f));
+	bottom1.SetScale(glm::vec3(3.238f, 0.5f, 0.1f));
 
 	bottom2.Model().GetRot().y = 1.57f;
 	bottom2.Model().GetPos().x = 1.57f;
@@ -70,7 +70,7 @@ ObjectManager::ObjectManager()
 
 	bottom4.Model().GetPos().z = -1.6f;
 	bottom4.Model().GetPos().y = 3.3f;
-	bottom4.SetScale(glm::vec3(3.25f, 0.5f, 0.1f));
+	bottom4.SetScale(glm::vec3(3.238f, 0.5f, 0.1f));
 
 	middle1.Model().GetPos().z = 1.6f;
 	middle1.Model().GetPos().x = -1.34f;
@@ -79,50 +79,72 @@ ObjectManager::ObjectManager()
 	middle1.SetScale(glm::vec3(3.65f, 0.5f, 0.05f));
 
 	middle2.Model().GetPos().z = 1.6f;
-	middle2.Model().GetPos().x = 1.34f;
+	middle2.Model().GetPos().x = 1.342f;
 	middle2.Model().GetPos().y = 1.32f;
 	middle2.Model().GetRot().z = 1.57f;
 	middle2.SetScale(glm::vec3(3.65f, 0.5f, 0.05f));
 
 	middle3.Model().GetPos().z = -1.6f;
-	middle3.Model().GetPos().x = -1.34f;
+	middle3.Model().GetPos().x = -1.3385f;
 	middle3.Model().GetPos().y = 1.32f;
 	middle3.Model().GetRot().z = 1.57f;
 	middle3.SetScale(glm::vec3(3.65f, 0.5f, 0.05f));
 
 	middle4.Model().GetPos().z = -1.6f;
-	middle4.Model().GetPos().x = 1.34f;
+	middle4.Model().GetPos().x = 1.342f;
 	middle4.Model().GetPos().y = 1.32f;
 	middle4.Model().GetRot().z = 1.57f;
 	middle4.SetScale(glm::vec3(3.65f, 0.5f, 0.05f));
 
-	middle5.Model().GetPos().z = 1.32f;
-	middle5.Model().GetPos().x = -1.57f;
+	middle5.Model().GetPos().z = 1.325f;
+	middle5.Model().GetPos().x = -1.564f;
 	middle5.Model().GetPos().y = 1.32f;
 	middle5.Model().GetRot().z = 1.57f;
 	middle5.Model().GetRot().x = 1.57f;
 	middle5.SetScale(glm::vec3(3.65f, 0.5f, 0.05f));
 
-	middle6.Model().GetPos().z = -1.32f;
-	middle6.Model().GetPos().x = -1.57f;
+	middle6.Model().GetPos().z = -1.325f;
+	middle6.Model().GetPos().x = -1.564f;
 	middle6.Model().GetPos().y = 1.32f;
 	middle6.Model().GetRot().z = 1.57f;
 	middle6.Model().GetRot().x = 1.57f;
 	middle6.SetScale(glm::vec3(3.65f, 0.5f, 0.05f));
 
-	middle7.Model().GetPos().z = 1.32f;
+	middle7.Model().GetPos().z = 1.325f;
 	middle7.Model().GetPos().x = 1.57f;
 	middle7.Model().GetPos().y = 1.32f;
 	middle7.Model().GetRot().z = 1.57f;
 	middle7.Model().GetRot().x = 1.57f;
 	middle7.SetScale(glm::vec3(3.65f, 0.5f, 0.05f));
 
-	middle8.Model().GetPos().z = -1.32f;
+	middle8.Model().GetPos().z = -1.325f;
 	middle8.Model().GetPos().x = 1.57f;
 	middle8.Model().GetPos().y = 1.32f;
 	middle8.Model().GetRot().z = 1.57f;
 	middle8.Model().GetRot().x = 1.57f;
 	middle8.SetScale(glm::vec3(3.65f, 0.5f, 0.05f));
+
+	top1.Model().GetPos().y = 3.57f;
+	top1.Model().GetPos().z = 1.45f;
+	top1.Model().GetRot().x = 1.57;	
+	top1.SetScale(glm::vec3(3.238f, 0.4f, 0.05f));
+
+	top2.Model().GetPos().y = 3.57f;
+	top2.Model().GetPos().z = -1.45f;
+	top2.Model().GetRot().x = 1.57;
+	top2.SetScale(glm::vec3(3.238f, 0.4f, 0.05f));
+
+	top3.Model().GetPos().y = 3.57f;
+	top3.Model().GetPos().x = 1.42f;
+	top3.Model().GetRot().x = 1.57;
+	top3.Model().GetRot().y = 1.57;
+	top3.SetScale(glm::vec3(2.838f, 0.4f, 0.05f));
+
+	top4.Model().GetPos().y = 3.57f;
+	top4.Model().GetPos().x = -1.42f;
+	top4.Model().GetRot().x = 1.57;
+	top4.Model().GetRot().y = 1.57;
+	top4.SetScale(glm::vec3(2.838f, 0.4f, 0.05f));
 
 	objectsToDraw.push_back(&ziemia);
 	objectsToDraw.push_back(&podloga);
@@ -142,6 +164,10 @@ ObjectManager::ObjectManager()
 	objectsToDraw.push_back(&lozysko_poziome_lewe);
 	objectsToDraw.push_back(&lozysko_poziome_prawe);
 	objectsToDraw.push_back(&glowica);
+	objectsToDraw.push_back(&top1);
+	objectsToDraw.push_back(&top2);
+	objectsToDraw.push_back(&top3);
+	objectsToDraw.push_back(&top4);
 
 	objectsToDraw.push_back(&prowadnica_pionowa_lewa);
 	objectsToDraw.push_back(&prowadnica_pionowa_prawa);
