@@ -2,15 +2,17 @@
 
 
 
-ObjectManager::ObjectManager()
+ObjectManager::ObjectManager(): iglica(100)
 {
 	movementSpeed = 1.0f;
+	oldPosition = glm::vec3(0.0, WS_Y_MAX, 0.0);
 
 	ziemia.SetScale(glm::vec3(30.0f, 1.0f, 30.0f));
 	ziemia.Model().GetPos().y = -1.5f;
 	ziemia.SetMaterial(Material(glm::vec3(0.2, 0.3, 0.3), glm::vec3(0.35, 0.45, 0.45), glm::vec3(0.5, 0.5, 0.5), 25));
 
 	stol.SetScale(glm::vec3(3.0f, 0.1f, 3.0f));
+	stol.SetPos(glm::vec3(0.0f, 1.89f, 0.0f));
 
 	podloga.SetScale(glm::vec3(3.18f, 0.5f, 3.25f));
 	podloga.Model().GetPos().y = -0.75f;
@@ -146,11 +148,11 @@ ObjectManager::ObjectManager()
 	top4.Model().GetRot().y = 1.57;
 	top4.SetScale(glm::vec3(2.838f, 0.4f, 0.05f));
 
-	czesc_glowicy.SetScale(glm::vec3(0.15f, 0.05f, 0.15f));
+	czesc_glowicy.SetScale(glm::vec3(0.2f, 0.05f, 0.2f));
 	czesc_glowicy.Model().GetPos().y = 2.14f;
 
-	iglica.SetScale(glm::vec3(0.1f, 0.3f, 0.1f));
-	iglica.Model().GetPos().y = 2.0f;
+	iglica.SetScale(glm::vec3(0.2f, 0.2f, 0.2f));
+	iglica.Model().GetPos().y = 2.05f;
 
 	objectsToDraw.push_back(&ziemia);
 	objectsToDraw.push_back(&podloga);
@@ -183,7 +185,9 @@ ObjectManager::ObjectManager()
 	objectsToDraw.push_back(&prowadnica_pozioma_prawa);
 	objectsToDraw.push_back(&mala_prowadnica_pozioma1);
 	objectsToDraw.push_back(&mala_prowadnica_pozioma2);
+	objectsToDraw.push_back(&linia);
 
+	objectsY.push_back(&linia);
 	objectsY.push_back(&stol);
 	objectsX.push_back(&glowica);
 	objectsX.push_back(&iglica);
@@ -214,6 +218,7 @@ void ObjectManager::Draw(Camera view, Projection projection)
 void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 {
 	GLfloat velocity = movementSpeed * deltaTime;
+	glm::vec3 newPosition = oldPosition;
 
 	if (currentKeyStates[SDL_SCANCODE_D])
 	{
@@ -221,6 +226,8 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 		{
 			for(int i = 0; i < objectsX.size(); i++)
 				objectsX[i]->Model().GetPos().x += velocity;
+
+			newPosition.x += velocity;
 		}
 	}
 	if (currentKeyStates[SDL_SCANCODE_A])
@@ -229,6 +236,8 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 		{
 			for (int i = 0; i < objectsX.size(); i++)
 				objectsX[i]->Model().GetPos().x -= velocity;
+
+			newPosition.x -= velocity;
 		}
 	}
 	if (currentKeyStates[SDL_SCANCODE_W])
@@ -237,6 +246,8 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 		{
 			for (int i = 0; i < objectsZ.size(); i++)
 				objectsZ[i]->Model().GetPos().z -= velocity;
+			
+			newPosition.z -= velocity;
 		}
 	}
 	if (currentKeyStates[SDL_SCANCODE_S])
@@ -245,22 +256,35 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 		{
 			for (int i = 0; i < objectsZ.size(); i++)
 				objectsZ[i]->Model().GetPos().z += velocity;
+			
+			newPosition.z += velocity;
 		}
 	}
 	if (currentKeyStates[SDL_SCANCODE_Q])
 	{
-		if (stol.Model().GetPos().y < 1.89)
+		if (stol.Model().GetPos().y < 1.88)
 		{
-			for (int i = 0; i < objectsX.size(); i++)
+			for (int i = 0; i < objectsY.size(); i++)
 				objectsY[i]->Model().GetPos().y += velocity;
+
+			newPosition.y -= velocity;
 		}
 	}
 	if (currentKeyStates[SDL_SCANCODE_E])
 	{
 		if (stol.Model().GetPos().y > -0.45)
 		{
-			for (int i = 0; i < objectsX.size(); i++)
+			for (int i = 0; i < objectsY.size(); i++)
 				objectsY[i]->Model().GetPos().y -= velocity;
+
+			newPosition.y += velocity;
 		}
+	}
+
+
+	if (oldPosition != newPosition)
+	{
+		linia.AddVertex(newPosition);
+		oldPosition = newPosition;
 	}
 }

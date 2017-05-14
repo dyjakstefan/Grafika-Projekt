@@ -74,3 +74,10 @@ Cylinder::Cylinder(int points)
 Cylinder::~Cylinder()
 {
 }
+
+void Cylinder::Draw(Camera view, Projection projection)
+{
+	shader.Bind();
+	shader.Update(transform, view, projection, material);
+	mesh.Draw();
+}

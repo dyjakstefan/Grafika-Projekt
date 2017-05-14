@@ -6,6 +6,7 @@
 #include "Projection.h"
 #include "Camera.h"
 #include "SDL_events.h"
+#include "Line.h"
 
 class ObjectManager
 {
@@ -20,6 +21,8 @@ private:
 	std::vector<PrimaryObject*> objectsX;
 	std::vector<PrimaryObject*> objectsY;
 	std::vector<PrimaryObject*> objectsZ;
+	//std::vector<PrimaryObject> linie;
+	glm::vec3 oldPosition;
 
 	Cylinder prowadnica_pionowa_lewa, prowadnica_pionowa_prawa;
 	Cylinder prowadnica_pozioma_lewa, prowadnica_pozioma_prawa;
@@ -33,6 +36,8 @@ private:
 	Cube ziemia;
 
 	Cone iglica;
+
+	Line linia;
 
 	GLfloat movementSpeed;
 };

@@ -66,6 +66,9 @@
     <ClCompile Include="Line.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Cone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Display.h">
@@ -116,6 +119,9 @@
     <ClInclude Include="Line.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Cone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -125,10 +131,10 @@
     <None Include="res\basicShader.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="res\lampShader.frag">
+    <None Include="res\lineShader.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="res\lampShader.vs">
+    <None Include="res\lineShader.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

@@ -10,7 +10,7 @@ public:
 	PrimaryObject();
 	~PrimaryObject();
 
-	void Draw(Camera view, Projection projection);
+	virtual void Draw(Camera view, Projection projection);
 	Transform& Model();
 
 	void SetPos(const glm::vec3& pos);

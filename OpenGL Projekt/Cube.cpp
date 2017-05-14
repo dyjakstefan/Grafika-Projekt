@@ -70,3 +70,10 @@ Cube::Cube(const std::string & shaderName)
 Cube::~Cube()
 {
 }
+
+void Cube::Draw(Camera view, Projection projection)
+{
+	shader.Bind();
+	shader.Update(transform, view, projection, material);
+	mesh.Draw();
+}

@@ -5,7 +5,7 @@
 class Line : public PrimaryObject
 {
 public:
-	Line(const std::string & shaderName = "basicShader");
+	Line(const std::string & shaderName = "lineShader");
 	~Line();
 
 	void AddVertex(glm::vec3 vertex);
