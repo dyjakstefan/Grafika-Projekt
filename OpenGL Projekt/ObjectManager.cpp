@@ -146,6 +146,12 @@ ObjectManager::ObjectManager()
 	top4.Model().GetRot().y = 1.57;
 	top4.SetScale(glm::vec3(2.838f, 0.4f, 0.05f));
 
+	czesc_glowicy.SetScale(glm::vec3(0.15f, 0.05f, 0.15f));
+	czesc_glowicy.Model().GetPos().y = 2.14f;
+
+	iglica.SetScale(glm::vec3(0.1f, 0.3f, 0.1f));
+	iglica.Model().GetPos().y = 2.0f;
+
 	objectsToDraw.push_back(&ziemia);
 	objectsToDraw.push_back(&podloga);
 	objectsToDraw.push_back(&stol);
@@ -168,6 +174,8 @@ ObjectManager::ObjectManager()
 	objectsToDraw.push_back(&top2);
 	objectsToDraw.push_back(&top3);
 	objectsToDraw.push_back(&top4);
+	objectsToDraw.push_back(&iglica);
+	objectsToDraw.push_back(&czesc_glowicy);
 
 	objectsToDraw.push_back(&prowadnica_pionowa_lewa);
 	objectsToDraw.push_back(&prowadnica_pionowa_prawa);
@@ -178,11 +186,16 @@ ObjectManager::ObjectManager()
 
 	objectsY.push_back(&stol);
 	objectsX.push_back(&glowica);
+	objectsX.push_back(&iglica);
+	objectsX.push_back(&czesc_glowicy);
 	objectsZ.push_back(&glowica);
+	objectsZ.push_back(&iglica);
+	objectsZ.push_back(&czesc_glowicy);
 	objectsZ.push_back(&mala_prowadnica_pozioma1);
 	objectsZ.push_back(&mala_prowadnica_pozioma2);
 	objectsZ.push_back(&lozysko_poziome_lewe);
 	objectsZ.push_back(&lozysko_poziome_prawe);
+	
 }
 
 
