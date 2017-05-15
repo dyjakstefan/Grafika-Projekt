@@ -98,13 +98,18 @@ int main(int argc, char** argv)
 			GLfloat angle = 2 * glm::pi<float>() * counter*100 / 100;
 			line.AddVertex(glm::vec3(glm::cos(angle) * 0.5, counter, glm::sin(angle) * 0.5));
 		}
+
+		if (currentFrame > 2000 && currentFrame < 5000)
+		{
+			objManager.MoveByRoute(deltaTime);
+		}
 		
 		//display.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 		display.Clear(0.85f, 0.98f, 0.98f, 1.0f);
 
 		projection.SetFov(camera.m_zoom);
 
-		line.Draw(camera, projection);
+		//line.Draw(camera, projection);
 		objManager.Draw(camera, projection);
 		display.Update();
 

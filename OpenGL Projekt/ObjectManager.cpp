@@ -7,6 +7,14 @@ ObjectManager::ObjectManager(): iglica(100)
 	movementSpeed = 1.0f;
 	oldPosition = glm::vec3(0.0, WS_Y_MAX, 0.0);
 
+	route.push_back(glm::vec3(0.0, 0.2, 0.0));
+	route.push_back(glm::vec3(0.7, 0.0, 0.0));
+	route.push_back(glm::vec3(0.0, -0.3, 0.0));
+	route.push_back(glm::vec3(0.0, 0.0, 0.5));
+	route.push_back(glm::vec3(0.0, 0.4, 0.0));
+	route.push_back(glm::vec3(-0.7, 0.0, 0.0));
+	route.push_back(glm::vec3(0.0, 0.0, -0.4));
+
 	ziemia.SetScale(glm::vec3(30.0f, 1.0f, 30.0f));
 	ziemia.Model().GetPos().y = -1.5f;
 	ziemia.SetMaterial(Material(glm::vec3(0.2, 0.3, 0.3), glm::vec3(0.35, 0.45, 0.45), glm::vec3(0.5, 0.5, 0.5), 25));
@@ -224,8 +232,7 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 	{
 		if (glowica.Model().GetPos().x < 0.8)
 		{
-			for(int i = 0; i < objectsX.size(); i++)
-				objectsX[i]->Model().GetPos().x += velocity;
+			MoveX(velocity);
 
 			newPosition.x += velocity;
 		}
@@ -234,8 +241,7 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 	{
 		if (glowica.Model().GetPos().x > -0.8)
 		{
-			for (int i = 0; i < objectsX.size(); i++)
-				objectsX[i]->Model().GetPos().x -= velocity;
+			MoveX(-velocity);
 
 			newPosition.x -= velocity;
 		}
@@ -244,8 +250,8 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 	{
 		if (glowica.Model().GetPos().z > -1.31)
 		{
-			for (int i = 0; i < objectsZ.size(); i++)
-				objectsZ[i]->Model().GetPos().z -= velocity;
+			MoveZ(-velocity);
+
 			
 			newPosition.z -= velocity;
 		}
@@ -254,8 +260,7 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 	{
 		if (glowica.Model().GetPos().z < 1.31)
 		{
-			for (int i = 0; i < objectsZ.size(); i++)
-				objectsZ[i]->Model().GetPos().z += velocity;
+			MoveZ(velocity);
 			
 			newPosition.z += velocity;
 		}
@@ -264,8 +269,7 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 	{
 		if (stol.Model().GetPos().y < 1.88)
 		{
-			for (int i = 0; i < objectsY.size(); i++)
-				objectsY[i]->Model().GetPos().y += velocity;
+			MoveY(velocity);
 
 			newPosition.y -= velocity;
 		}
@@ -274,17 +278,122 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 	{
 		if (stol.Model().GetPos().y > -0.45)
 		{
-			for (int i = 0; i < objectsY.size(); i++)
-				objectsY[i]->Model().GetPos().y -= velocity;
+			MoveY(-velocity);
 
 			newPosition.y += velocity;
 		}
 	}
-
 
 	if (oldPosition != newPosition)
 	{
 		linia.AddVertex(newPosition);
 		oldPosition = newPosition;
 	}
+}
+
+void ObjectManager::MoveByRoute(GLfloat deltaTime)
+{
+	GLfloat velocity = movementSpeed * deltaTime;
+	int index = route.size() - 1;
+	glm::vec3 newPosition = oldPosition;
+	if (index >= 0)
+	{
+		if (route[index].x != 0)
+		{
+			if (abs(route[index].x) < velocity)
+			{
+				MoveX(route[index].x);
+				newPosition.x += route[index].x;
+				route.pop_back();
+			}
+			else
+			{
+				if (route[index].x > 0)
+				{
+					MoveX(velocity);
+					route[index].x -= velocity;
+					newPosition.x += velocity;
+				}
+				else
+				{
+					MoveX(-velocity);
+					route[index].x += velocity;
+					newPosition.x -= velocity;
+				}
+			}
+		}
+		else if (route[index].y != 0)
+		{
+			if (abs(route[index].y) < velocity)
+			{
+				MoveY(-route[index].y);
+				newPosition.y += route[index].y;
+				route.pop_back();
+			}
+			else
+			{
+				if (route[index].y > 0)
+				{
+					MoveY(-velocity);
+					route[index].y -= velocity;
+					newPosition.y += velocity;
+				}
+				else
+				{
+					MoveY(velocity);
+					route[index].y += velocity;
+					newPosition.y -= velocity;
+				}
+			}
+		}
+		else if (route[index].z != 0)
+		{
+			if (abs(route[index].z) < velocity)
+			{
+				MoveZ(route[index].z);
+				newPosition.z += route[index].z;
+				route.pop_back();
+
+			}
+			else
+			{
+				if (route[index].z > 0)
+				{
+					MoveZ(velocity);
+					route[index].z -= velocity;
+					newPosition.z += velocity;
+				}
+				else
+				{
+					MoveZ(-velocity);
+					route[index].z += velocity;
+					newPosition.z -= velocity;
+				}
+			}
+		}
+
+		if (oldPosition != newPosition)
+		{
+			linia.AddVertex(newPosition);
+			oldPosition = newPosition;
+		}
+	}
+}
+
+void ObjectManager::MoveX(float velocity)
+{
+	for (int i = 0; i < objectsX.size(); i++)
+		objectsX[i]->Model().GetPos().x += velocity;
+}
+
+void ObjectManager::MoveY(float velocity)
+{
+	for (int i = 0; i < objectsY.size(); i++)
+		objectsY[i]->Model().GetPos().y += velocity;
+}
+
+void ObjectManager::MoveZ(float velocity)
+{
+	for (int i = 0; i < objectsZ.size(); i++)
+		objectsZ[i]->Model().GetPos().z += velocity;
 }

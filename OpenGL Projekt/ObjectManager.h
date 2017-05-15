@@ -16,12 +16,13 @@ public:
 
 	void Draw(Camera view, Projection projection);
 	void Events(const Uint8* currentKeyStates, GLfloat deltaTime);
+	void MoveByRoute(GLfloat deltaTime);
 private:
 	std::vector<PrimaryObject*> objectsToDraw;
 	std::vector<PrimaryObject*> objectsX;
 	std::vector<PrimaryObject*> objectsY;
 	std::vector<PrimaryObject*> objectsZ;
-	//std::vector<PrimaryObject> linie;
+	std::vector<glm::vec3> route;
 	glm::vec3 oldPosition;
 
 	Cylinder prowadnica_pionowa_lewa, prowadnica_pionowa_prawa;
@@ -40,5 +41,9 @@ private:
 	Line linia;
 
 	GLfloat movementSpeed;
+
+	void MoveX(float velocity);
+	void MoveY(float velocity);
+	void MoveZ(float velocity);
 };
 
