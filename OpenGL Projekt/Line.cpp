@@ -22,9 +22,9 @@ Line::~Line()
 
 void Line::AddVertex(glm::vec3 vertex)
 {
-	vertices.push_back(Vertex(vertex , glm::vec3(0.0f, 1.0f, 0.0f)));
+	vertices.push_back(Vertex(vertex , glm::vec3(1.0f, 1.0f, 1.0f)));
 	indices.push_back(indices.size());
-	mesh.Update(vertices[vertices.size()-1], indices.size());
+	mesh.Update(vertices[vertices.size()-1], indices[indices.size()-1]);
 }
 
 void Line::Draw(Camera view, Projection projection)

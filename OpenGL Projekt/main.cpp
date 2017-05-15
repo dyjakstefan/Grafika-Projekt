@@ -24,7 +24,7 @@ int main(int argc, char** argv)
 	float counter = 0.0f;
 	Projection projection(camera.m_zoom, 0.1f, 1000.0f);
 
-	Line line;
+	//Line line;
 	/*line.AddVertex(glm::vec3(1.0f, 1.0f, 1.0f));
 	line.AddVertex(glm::vec3(2.0f, 2.0f, 2.0f));
 	line.AddVertex(glm::vec3(-2.0f, 3.0f, -2.0f));
@@ -93,11 +93,11 @@ int main(int argc, char** argv)
 			}
 		}
 
-		if (counter < 2)
+		/*if (counter < 2)
 		{
 			GLfloat angle = 2 * glm::pi<float>() * counter*100 / 100;
 			line.AddVertex(glm::vec3(glm::cos(angle) * 0.5, counter, glm::sin(angle) * 0.5));
-		}
+		}*/
 
 		if (currentFrame > 2000 && currentFrame < 5000)
 		{
