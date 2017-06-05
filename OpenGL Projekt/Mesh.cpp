@@ -110,6 +110,7 @@ void Mesh::Draw(int type)
 		glDrawElementsBaseVertex(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0, 0);
 	else if (type == 1)
 	{
+		glLineWidth(3);
 		glDrawElementsBaseVertex(GL_LINE_STRIP, m_drawCount, GL_UNSIGNED_INT, 0, 0);
 	}
 	glBindVertexArray(0);

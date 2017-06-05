@@ -1,7 +1,7 @@
 #include "Shader.h"
 #include <iostream>
 #include <fstream>
-
+#include "Options.h"
 static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string & errorMessage);
 static std::string LoadShader(const std::string & fileName);
 static GLuint CreateShader(const std::string & text, GLenum shaderType);
@@ -98,6 +98,8 @@ void Shader::Bind()
 
 void Shader::Update(const Transform& model, const Camera& camera, const Projection& projection, const Material material)
 {
+	Material lightColor = Options::GetInstance().GetLightColor();
+
 	glUniformMatrix4fv(m_uniforms[MODEL_U], 1, GL_FALSE, glm::value_ptr(model.GetModel()));
 	glUniformMatrix4fv(m_uniforms[VIEW_U], 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
 	glUniformMatrix4fv(m_uniforms[PROJECTION_U], 1, GL_FALSE, glm::value_ptr(projection.GetProjection()));

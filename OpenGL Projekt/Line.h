@@ -6,6 +6,7 @@ class Line : public PrimaryObject
 {
 public:
 	Line(const std::string & shaderName = "lineShader");
+	void ZmianaKoloru(int i, const std::string & shaderName = "lineShader");
 	int i;
 	~Line();
 

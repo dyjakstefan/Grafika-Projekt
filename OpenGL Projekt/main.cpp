@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include "SDL_events.h"
 #include "Display.h"
 #include "Projection.h"
@@ -13,13 +13,14 @@
 
 int main(int argc, char** argv)
 {
+	Line k;
 	std::string kolor, kolory[6] = {
 		"Czerwony",
-		 "Czarny" ,
+		"Czarny" ,
 		"Zielony" ,
-		 "Bialy" ,
-		 "Zolty" ,
-		 "Cyjan" 
+		"Bialy" ,
+		"Zolty" ,
+		"Cyjan"
 	};
 	Display display(WIDTH, HEIGHT, "OpenGL Projekt");
 	SDL_WarpMouseInWindow(display.Window(), WIDTH / 2, HEIGHT / 2);
@@ -38,7 +39,7 @@ int main(int argc, char** argv)
 	/*line.AddVertex(glm::vec3(1.0f, 1.0f, 1.0f));
 	line.AddVertex(glm::vec3(2.0f, 2.0f, 2.0f));
 	line.AddVertex(glm::vec3(-2.0f, 3.0f, -2.0f));
-	
+
 	line.SetPos(glm::vec3(3.0f, 3.0f, 3.0f));*/
 	TwInit(TW_OPENGL, NULL);
 	TwWindowSize(WIDTH, HEIGHT);
@@ -47,7 +48,7 @@ int main(int argc, char** argv)
 	TwAddVarRW(myBar, "kol2", TW_TYPE_INT8, &j, "label='Kolor oswietlenia' ");
 
 	//TwAddButton(myBar, "comment1", NULL, NULL, " label='Life is like a box a chocolates' ");
-	
+
 	while (!display.IsClosed())
 	{
 		GLfloat currentFrame = SDL_GetTicks();
@@ -60,8 +61,8 @@ int main(int argc, char** argv)
 			int x, y;
 			SDL_GetMouseState(&x, &y);
 			const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-			
-			if (e.type == SDL_QUIT)			
+
+			if (e.type == SDL_QUIT)
 				display.Close();
 
 			handled = TwEventSDL(&e, SDL_MAJOR_VERSION, SDL_MINOR_VERSION);
@@ -86,14 +87,15 @@ int main(int argc, char** argv)
 						else
 							j = 0;
 					}
+					k.ZmianaKoloru(i);
 					break;
 				}
 			}
-			//Poruszanie g³owic¹ i sto³em
-			
+			//Poruszanie gÂ³owicÂ¹ i stoÂ³em
+
 			objManager.Events(currentKeyStates, deltaTime);
 
-			//Poruszanie kamer¹
+			//Poruszanie kamerÂ¹
 
 			if (currentKeyStates[SDL_SCANCODE_UP])
 			{
@@ -111,7 +113,7 @@ int main(int argc, char** argv)
 			{
 				camera.ProcessKeyboard(RIGHT, deltaTime);
 			}
-			
+
 			if (e.type == SDL_MOUSEWHEEL)
 			{
 				camera.ProcessMouseScroll(e.wheel.y);
@@ -119,7 +121,7 @@ int main(int argc, char** argv)
 
 			if (e.button.button == SDL_BUTTON_LEFT)
 			{
-				
+
 				if (mouse.IsPositionChanged(x, y))
 				{
 					glm::vec2 offset = mouse.UpdatePosition(x, y);
@@ -131,16 +133,16 @@ int main(int argc, char** argv)
 				mouse.SetPosX(x);
 				mouse.SetPosY(y);
 			}
-			
-			
+
+
 		}
-		
-		
+
+
 
 		/*if (counter < 2)
 		{
-			GLfloat angle = 2 * glm::pi<float>() * counter*100 / 100;
-			line.AddVertex(glm::vec3(glm::cos(angle) * 0.5, counter, glm::sin(angle) * 0.5));
+		GLfloat angle = 2 * glm::pi<float>() * counter*100 / 100;
+		line.AddVertex(glm::vec3(glm::cos(angle) * 0.5, counter, glm::sin(angle) * 0.5));
 		}*/
 
 		if (currentFrame > 2000 && currentFrame < 5000)
@@ -156,7 +158,7 @@ int main(int argc, char** argv)
 		//line.Draw(camera, projection);
 		objManager.Draw(camera, projection); TwDraw();
 		display.Update();
-		
+
 		counter += 0.01;
 	}
 	TwTerminate();
