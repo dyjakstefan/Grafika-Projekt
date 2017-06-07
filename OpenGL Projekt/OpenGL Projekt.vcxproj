@@ -88,12 +88,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\M\Desktop\Projekt Grafika\packages\AntTweakBar\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\Users\M\Desktop\Projekt Grafika\packages\AntTweakBar\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>AntTweakBar64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -140,6 +138,7 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="Options.cpp" />
     <ClCompile Include="PrimaryObject.cpp" />
     <ClCompile Include="Projection.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -159,6 +158,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="Options.h" />
     <ClInclude Include="PrimaryObject.h" />
     <ClInclude Include="Projection.h" />
     <ClInclude Include="Shader.h" />
@@ -179,6 +179,8 @@
     <Import Project="..\packages\glew.v140.1.12.0\build\native\glew.v140.targets" Condition="Exists('..\packages\glew.v140.1.12.0\build\native\glew.v140.targets')" />
     <Import Project="..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets" Condition="Exists('..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" />
     <Import Project="..\packages\sdl2.2.0.5\build\native\sdl2.targets" Condition="Exists('..\packages\sdl2.2.0.5\build\native\sdl2.targets')" />
+    <Import Project="..\packages\AntTweakBar.redist.1.16.3\build\native\AntTweakBar.redist.targets" Condition="Exists('..\packages\AntTweakBar.redist.1.16.3\build\native\AntTweakBar.redist.targets')" />
+    <Import Project="..\packages\AntTweakBar.1.16.3\build\native\AntTweakBar.targets" Condition="Exists('..\packages\AntTweakBar.1.16.3\build\native\AntTweakBar.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -190,5 +192,7 @@
     <Error Condition="!Exists('..\packages\GLMathematics.0.9.5.4\build\native\GLMathematics.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GLMathematics.0.9.5.4\build\native\GLMathematics.props'))" />
     <Error Condition="!Exists('..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets'))" />
     <Error Condition="!Exists('..\packages\sdl2.2.0.5\build\native\sdl2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.2.0.5\build\native\sdl2.targets'))" />
+    <Error Condition="!Exists('..\packages\AntTweakBar.redist.1.16.3\build\native\AntTweakBar.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AntTweakBar.redist.1.16.3\build\native\AntTweakBar.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\AntTweakBar.1.16.3\build\native\AntTweakBar.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AntTweakBar.1.16.3\build\native\AntTweakBar.targets'))" />
   </Target>
 </Project>

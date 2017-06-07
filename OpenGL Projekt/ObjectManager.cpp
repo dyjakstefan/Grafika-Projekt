@@ -136,24 +136,24 @@ ObjectManager::ObjectManager(): iglica(100)
 
 	top1.Model().GetPos().y = 3.57f;
 	top1.Model().GetPos().z = 1.45f;
-	top1.Model().GetRot().x = 1.57;	
+	top1.Model().GetRot().x = 1.57f;	
 	top1.SetScale(glm::vec3(3.238f, 0.4f, 0.05f));
 
 	top2.Model().GetPos().y = 3.57f;
 	top2.Model().GetPos().z = -1.45f;
-	top2.Model().GetRot().x = 1.57;
+	top2.Model().GetRot().x = 1.57f;
 	top2.SetScale(glm::vec3(3.238f, 0.4f, 0.05f));
 
 	top3.Model().GetPos().y = 3.57f;
 	top3.Model().GetPos().x = 1.42f;
-	top3.Model().GetRot().x = 1.57;
-	top3.Model().GetRot().y = 1.57;
+	top3.Model().GetRot().x = 1.57f;
+	top3.Model().GetRot().y = 1.57f;
 	top3.SetScale(glm::vec3(2.838f, 0.4f, 0.05f));
 
 	top4.Model().GetPos().y = 3.57f;
 	top4.Model().GetPos().x = -1.42f;
-	top4.Model().GetRot().x = 1.57;
-	top4.Model().GetRot().y = 1.57;
+	top4.Model().GetRot().x = 1.57f;
+	top4.Model().GetRot().y = 1.57f;
 	top4.SetScale(glm::vec3(2.838f, 0.4f, 0.05f));
 
 	czesc_glowicy.SetScale(glm::vec3(0.2f, 0.05f, 0.2f));
@@ -294,7 +294,7 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 void ObjectManager::MoveByRoute(GLfloat deltaTime)
 {
 	GLfloat velocity = movementSpeed * deltaTime;
-	int index = route.size() - 1;
+	int index = (int)route.size() - 1;
 	glm::vec3 newPosition = oldPosition;
 	if (index >= 0)
 	{

@@ -16,6 +16,8 @@ bool Mouse::IsPositionChanged(double xpos, double ypos)
 		return true;
 	if (m_ypos != ypos)
 		return true;
+
+	return false;
 }
 
 glm::vec2 Mouse::UpdatePosition(double xpos, double ypos)

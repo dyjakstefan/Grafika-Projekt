@@ -13,7 +13,6 @@
 
 int main(int argc, char** argv)
 {
-	Line k;
 	std::string kolor, kolory[6] = {
 		"Czerwony",
 		"Czarny" ,
@@ -52,7 +51,7 @@ int main(int argc, char** argv)
 	while (!display.IsClosed())
 	{
 		GLfloat currentFrame = SDL_GetTicks();
-		deltaTime = (currentFrame - lastFrame) * 0.001;
+		deltaTime = (currentFrame - lastFrame) * 0.001f;
 		lastFrame = currentFrame;
 		SDL_PumpEvents();
 
@@ -87,7 +86,6 @@ int main(int argc, char** argv)
 						else
 							j = 0;
 					}
-					k.ZmianaKoloru(i);
 					break;
 				}
 			}
@@ -138,28 +136,19 @@ int main(int argc, char** argv)
 		}
 
 
-
-		/*if (counter < 2)
-		{
-		GLfloat angle = 2 * glm::pi<float>() * counter*100 / 100;
-		line.AddVertex(glm::vec3(glm::cos(angle) * 0.5, counter, glm::sin(angle) * 0.5));
-		}*/
-
 		if (currentFrame > 2000 && currentFrame < 5000)
 		{
 			objManager.MoveByRoute(deltaTime);
 		}
 
-		//display.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 		display.Clear(0.85f, 0.98f, 0.98f, 1.0f);
 
 		projection.SetFov(camera.m_zoom);
 
-		//line.Draw(camera, projection);
 		objManager.Draw(camera, projection); TwDraw();
 		display.Update();
 
-		counter += 0.01;
+		counter += 0.01f;
 	}
 	TwTerminate();
 	return 0;
