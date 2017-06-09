@@ -34,13 +34,8 @@ int main(int argc, char** argv)
 	GLfloat lastFrame = 0.0f;
 	float counter = 0.0f;
 	Projection projection(camera.m_zoom, 0.1f, 1000.0f);
-	//Line line;
-	/*line.AddVertex(glm::vec3(1.0f, 1.0f, 1.0f));
-	line.AddVertex(glm::vec3(2.0f, 2.0f, 2.0f));
-	line.AddVertex(glm::vec3(-2.0f, 3.0f, -2.0f));
 
-	line.SetPos(glm::vec3(3.0f, 3.0f, 3.0f));*/
-	TwInit(TW_OPENGL, NULL);
+	TwInit(TW_OPENGL_CORE, NULL);
 	TwWindowSize(WIDTH, HEIGHT);
 	myBar = TwNewBar("Menu drukarki");
 	TwAddVarRW(myBar, "kol1", TW_TYPE_INT8, &i, "label='Kolor filamentu' ");
@@ -55,7 +50,7 @@ int main(int argc, char** argv)
 		lastFrame = currentFrame;
 		SDL_PumpEvents();
 
-		while (SDL_PollEvent(&e))
+		if (SDL_PollEvent(&e))
 		{
 			int x, y;
 			SDL_GetMouseState(&x, &y);
@@ -94,6 +89,7 @@ int main(int argc, char** argv)
 			objManager.Events(currentKeyStates, deltaTime);
 
 			//Poruszanie kamer¹
+			
 
 			if (currentKeyStates[SDL_SCANCODE_UP])
 			{
@@ -117,9 +113,9 @@ int main(int argc, char** argv)
 				camera.ProcessMouseScroll(e.wheel.y);
 			}
 
+			
 			if (e.button.button == SDL_BUTTON_LEFT)
 			{
-
 				if (mouse.IsPositionChanged(x, y))
 				{
 					glm::vec2 offset = mouse.UpdatePosition(x, y);
@@ -131,7 +127,6 @@ int main(int argc, char** argv)
 				mouse.SetPosX(x);
 				mouse.SetPosY(y);
 			}
-
 
 		}
 
@@ -145,9 +140,10 @@ int main(int argc, char** argv)
 
 		projection.SetFov(camera.m_zoom);
 
-		objManager.Draw(camera, projection); TwDraw();
+		objManager.Draw(camera, projection);
+		TwDraw();
 		display.Update();
-
+		
 		counter += 0.01f;
 	}
 	TwTerminate();
