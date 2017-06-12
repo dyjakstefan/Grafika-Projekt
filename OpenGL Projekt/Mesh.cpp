@@ -47,7 +47,9 @@ void Mesh::Initialize(std::vector<Vertex> vertices, std::vector<GLuint> indices)
 		model.indices.push_back(indices[i]);
 
 	m_drawCount = indices.size();
-	
+	//glDeleteVertexArrays(1, &m_vertexArrayObject);
+	//glDeleteBuffers(NUM_BUFFERS, m_vertexArrayBuffers);
+
 	glGenVertexArrays(1, &m_vertexArrayObject);
 	glBindVertexArray(m_vertexArrayObject);
 
@@ -84,20 +86,20 @@ void Mesh::Update(Vertex vertex, GLuint index)
 
 	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glBufferData(GL_ARRAY_BUFFER, model.positions.size() * sizeof(glm::vec3), model.positions.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, model.positions.size() * sizeof(glm::vec3), model.positions.data(), GL_DYNAMIC_DRAW);
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[NORMAL_VB]);
-	glBufferData(GL_ARRAY_BUFFER, model.normals.size() * sizeof(glm::vec3), model.normals.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, model.normals.size() * sizeof(glm::vec3), model.normals.data(), GL_DYNAMIC_DRAW);
 
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	//glGenBuffers(1, &m_elementBufferObject);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vertexArrayBuffers[INDEX_VB]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, model.indices.size() * sizeof(GLuint), model.indices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, model.indices.size() * sizeof(GLuint), model.indices.data(), GL_DYNAMIC_DRAW);
 
 	glBindVertexArray(0);
 }
@@ -107,11 +109,11 @@ void Mesh::Draw(int type)
 	glBindVertexArray(m_vertexArrayObject);
 
 	if(type == 0)
-		glDrawElementsBaseVertex(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0, 0);
+		glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0);
 	else if (type == 1)
 	{
 		glLineWidth(3);
-		glDrawElementsBaseVertex(GL_LINE_STRIP, m_drawCount, GL_UNSIGNED_INT, 0, 0);
+		glDrawElements(GL_LINE_STRIP, m_drawCount, GL_UNSIGNED_INT, 0);
 	}
 	glBindVertexArray(0);
 }

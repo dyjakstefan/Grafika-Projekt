@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <queue>
 #include "Cube.h"
 #include "Cone.h"
 #include "Cylinder.h"
@@ -17,13 +18,20 @@ public:
 	void Draw(Camera view, Projection projection);
 	void Events(const Uint8* currentKeyStates, GLfloat deltaTime);
 	void MoveByRoute(GLfloat deltaTime);
+	void PrintCubes();
+	void SetRoute(std::queue<glm::vec3> route);
+	void AddCube();
 private:
+	
+
 	std::vector<PrimaryObject*> objectsToDraw;
 	std::vector<PrimaryObject*> objectsX;
 	std::vector<PrimaryObject*> objectsY;
 	std::vector<PrimaryObject*> objectsZ;
+	std::vector<Cube> cubes;
 	std::vector<glm::vec3> route;
-	glm::vec3 oldPosition;
+	std::queue<glm::vec3> routeQ;
+	glm::vec3 headPosition;
 
 	Cylinder prowadnica_pionowa_lewa, prowadnica_pionowa_prawa;
 	Cylinder prowadnica_pozioma_lewa, prowadnica_pozioma_prawa;
@@ -37,6 +45,9 @@ private:
 	Cube ziemia;
 
 	Cone iglica;
+
+	bool lineMode;
+	float cubeSize;
 
 	Line linia;
 

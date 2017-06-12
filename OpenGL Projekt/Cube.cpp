@@ -36,7 +36,12 @@ Cube::Cube(const std::string & shaderName)
 		Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f,  0.0f,  0.0f)),
 		Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(1.0f,  0.0f,  0.0f)),
 	};
-
+	this->vertices = vertices;
+	for (int i = 0; i < vertices.size(); i++)
+	{
+		vertices.pop_back();
+	}
+	
 	std::vector<GLuint> indices = {
 		//Front
 		0, 3, 2,
@@ -58,12 +63,17 @@ Cube::Cube(const std::string & shaderName)
 		23, 21, 22,
 	};
 
+	this->indices = indices;
+	for (int i = 0; i < indices.size(); i++)
+	{
+		indices.pop_back();
+	}
 	material.ambient = glm::vec3(0.0f, 0.1f, 0.06f);
 	material.diffuse = glm::vec3(0.0f, 0.50980392f, 0.50980392f);
 	material.specular = glm::vec3(0.50196078f, 0.50196078f, 0.50196078f);
 	material.shininess = 25.0f;
 	shader.Initialize("./res/" + shaderName);
-	mesh.Initialize(vertices, indices);
+	mesh.Initialize(this->vertices, this->indices);
 }
 
 
@@ -76,4 +86,10 @@ void Cube::Draw(Camera view, Projection projection)
 	shader.Bind();
 	shader.Update(transform, view, projection, material);
 	mesh.Draw();
+}
+
+void Cube::Update()
+{
+	shader.Initialize("./res/basicShader");
+	mesh.Initialize(this->vertices, this->indices);
 }

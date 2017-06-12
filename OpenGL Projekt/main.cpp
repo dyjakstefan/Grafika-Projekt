@@ -35,13 +35,20 @@ int main(int argc, char** argv)
 	float counter = 0.0f;
 	Projection projection(camera.m_zoom, 0.1f, 1000.0f);
 
-	TwInit(TW_OPENGL_CORE, NULL);
+	TwInit(TW_OPENGL, NULL);
 	TwWindowSize(WIDTH, HEIGHT);
 	myBar = TwNewBar("Menu drukarki");
 	TwAddVarRW(myBar, "kol1", TW_TYPE_INT8, &i, "label='Kolor filamentu' ");
 	TwAddVarRW(myBar, "kol2", TW_TYPE_INT8, &j, "label='Kolor oswietlenia' ");
 
 	//TwAddButton(myBar, "comment1", NULL, NULL, " label='Life is like a box a chocolates' ");
+	std::queue<glm::vec3> route;
+	route.push(glm::vec3(5, 0, 0));
+	route.push(glm::vec3(0, 5, 0));
+	//route.push(glm::vec3(1, 1, 0));
+	route.push(glm::vec3(0, 0, 5));
+
+	objManager.SetRoute(route);
 
 	while (!display.IsClosed())
 	{
@@ -131,10 +138,12 @@ int main(int argc, char** argv)
 		}
 
 
-		if (currentFrame > 2000 && currentFrame < 5000)
+		if (currentFrame > 2000 /*&& currentFrame < 5000*/)
 		{
-			objManager.MoveByRoute(deltaTime);
+			//objManager.MoveByRoute(deltaTime);
+			objManager.PrintCubes();
 		}
+
 
 		display.Clear(0.85f, 0.98f, 0.98f, 1.0f);
 

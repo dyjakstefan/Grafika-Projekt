@@ -4,8 +4,10 @@
 
 ObjectManager::ObjectManager(): iglica(100)
 {
+	lineMode = false;
+	cubeSize = 0.1f;
 	movementSpeed = 1.0f;
-	oldPosition = glm::vec3(0.0, WS_Y_MAX, 0.0);
+	headPosition = glm::vec3(0.0, WS_Y_MAX, 0.0);
 
 	route.push_back(glm::vec3(0.0, 0.2, 0.0));
 	route.push_back(glm::vec3(0.7, 0.0, 0.0));
@@ -17,7 +19,7 @@ ObjectManager::ObjectManager(): iglica(100)
 
 	ziemia.SetScale(glm::vec3(30.0f, 1.0f, 30.0f));
 	ziemia.Model().GetPos().y = -1.5f;
-	ziemia.SetMaterial(Material(glm::vec3(0.2, 0.3, 0.3), glm::vec3(0.35, 0.45, 0.45), glm::vec3(0.5, 0.5, 0.5), 25));
+	ziemia.SetMaterial(Material(glm::vec3(0.1, 0.1, 0.1), glm::vec3(0.20, 0.25, 0.25), glm::vec3(0.5, 0.5, 0.5), 25));
 
 	stol.SetScale(glm::vec3(3.0f, 0.1f, 3.0f));
 	stol.SetPos(glm::vec3(0.0f, 1.89f, 0.0f));
@@ -221,12 +223,17 @@ void ObjectManager::Draw(Camera view, Projection projection)
 	{
 		objectsToDraw[i]->Draw(view, projection);
 	}
+	for (int i = 0; i < cubes.size(); i++)
+	{
+		//cubes[i].Update();
+		cubes[i].Draw(view, projection);
+	}
 }
 
 void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 {
 	GLfloat velocity = movementSpeed * deltaTime;
-	glm::vec3 newPosition = oldPosition;
+	glm::vec3 newPosition = headPosition;
 
 	if (currentKeyStates[SDL_SCANCODE_D])
 	{
@@ -284,10 +291,10 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 		}
 	}
 
-	if (oldPosition != newPosition)
+	if (headPosition != newPosition)
 	{
 		linia.AddVertex(newPosition);
-		oldPosition = newPosition;
+		headPosition = newPosition;
 	}
 }
 
@@ -295,7 +302,7 @@ void ObjectManager::MoveByRoute(GLfloat deltaTime)
 {
 	GLfloat velocity = movementSpeed * deltaTime;
 	int index = (int)route.size() - 1;
-	glm::vec3 newPosition = oldPosition;
+	glm::vec3 newPosition = headPosition;
 	if (index >= 0)
 	{
 		if (route[index].x != 0)
@@ -372,12 +379,95 @@ void ObjectManager::MoveByRoute(GLfloat deltaTime)
 			}
 		}
 
-		if (oldPosition != newPosition)
+		if (headPosition != newPosition)
 		{
 			linia.AddVertex(newPosition);
-			oldPosition = newPosition;
+			headPosition = newPosition;
 		}
 	}
+}
+
+void ObjectManager::PrintCubes()
+{
+	glm::vec3 velocity = glm::vec3(cubeSize);
+	if (!routeQ.empty())
+	{
+		glm::vec3 item = routeQ.front();
+		item.x > 0 ? velocity.x : velocity.x *= -1;
+		item.y > 0 ? velocity.y : velocity.y *= -1;
+		item.z > 0 ? velocity.z : velocity.z *= -1;
+
+		if (item.x != 0 && item.y != 0)
+		{
+			MoveX(velocity.x);
+			MoveY(velocity.y);
+			routeQ.pop();
+		}
+		else if (item.x != 0 && item.z != 0)
+		{
+			MoveX(velocity.x);
+			MoveZ(velocity.z);
+			routeQ.pop();
+		}
+		else if (item.y != 0 && item.z != 0)
+		{
+			MoveZ(velocity.z);
+			MoveY(velocity.y);
+			routeQ.pop();
+		}
+		else if (item.x != 0)
+		{
+			MoveX(velocity.x);
+			item.x > 0? routeQ.front().x -= 1: routeQ.front().x += 1;
+			if (routeQ.front().x < 0.5f && routeQ.front().x > -0.5f)
+			{
+				routeQ.pop();
+			}
+		}
+		else if (item.y != 0)
+		{
+			MoveX(velocity.y);
+			item.y > 0 ? routeQ.front().y -= 1 : routeQ.front().y += 1;
+			if (routeQ.front().y < 0.5f && routeQ.front().y > -0.5f)
+			{
+				routeQ.pop();
+			}
+		}
+		else if (item.z != 0)
+		{
+			MoveX(velocity.z);
+			item.z > 0 ? routeQ.front().z -= 1 : routeQ.front().z += 1;
+			if (routeQ.front().z < 0.5f && routeQ.front().z > -0.5f)
+			{
+				routeQ.pop();
+			}
+		}
+
+		AddCube();
+	}
+	else
+	{
+		std::cout << "1";
+	}
+}
+
+void ObjectManager::SetRoute(std::queue<glm::vec3> route)
+{
+	this->routeQ = route;
+}
+
+void ObjectManager::AddCube()
+{
+	
+	Cube* cube;
+	cube = new Cube();
+	cube->SetMaterial(Material(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.5, 0.0, 0.0), glm::vec3(0.7, 0.6, 0.6), 25.0f));
+	cube->SetPos(headPosition);
+	cube->SetScale(glm::vec3(0.1, 0.1, 0.1));
+	headPosition += 0.1f;
+	cubes.push_back(*cube);
+	cubes[cubes.size() - 1].Update();
+	delete cube;
 }
 
 void ObjectManager::MoveX(float velocity)
@@ -389,7 +479,13 @@ void ObjectManager::MoveX(float velocity)
 void ObjectManager::MoveY(float velocity)
 {
 	for (int i = 0; i < objectsY.size(); i++)
+	{
 		objectsY[i]->Model().GetPos().y += velocity;
+	}
+	for (int i = 0; i < cubes.size(); i++)
+	{
+		cubes[i].Model().GetPos().y += velocity;
+	}
 }
 
 void ObjectManager::MoveZ(float velocity)

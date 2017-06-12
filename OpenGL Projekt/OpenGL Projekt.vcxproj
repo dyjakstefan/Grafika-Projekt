@@ -166,6 +166,8 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="depthShader.frag" />
+    <None Include="depthShader.vs" />
     <None Include="packages.config" />
     <None Include="res\basicShader.frag" />
     <None Include="res\basicShader.vs" />

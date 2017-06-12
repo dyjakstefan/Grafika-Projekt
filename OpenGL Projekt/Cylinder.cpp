@@ -81,3 +81,9 @@ void Cylinder::Draw(Camera view, Projection projection)
 	shader.Update(transform, view, projection, material);
 	mesh.Draw();
 }
+
+void Cylinder::Update()
+{
+	shader.Initialize("./res/basicShader");
+	mesh.Initialize(vertices, indices);
+}

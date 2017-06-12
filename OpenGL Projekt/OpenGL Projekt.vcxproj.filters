@@ -143,5 +143,11 @@
     <None Include="res\lineShader.vs">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="depthShader.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="depthShader.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
