@@ -48,7 +48,35 @@ int main(int argc, char** argv)
 	//route.push(glm::vec3(1, 1, 0));
 	route.push(glm::vec3(0, 0, 5));
 
+	std::queue<glm::vec3> route2;
+	int x = -1;
+	route2.push(glm::vec3(0, 0, 5));
+
+	for (int i = 0; i < 4; i++)
+	{
+		route2.push(glm::vec3(1, 0, 0));
+		route2.push(glm::vec3(0, 0, x * 4));
+		x *= -1;
+	}
+	for (int j = 0; j < 5; j++)
+	{
+		route2.push(glm::vec3(0, 1, 0));
+		route2.push(glm::vec3(0, 0, -4));
+		route2.push(glm::vec3(-4, 0, 0));
+		route2.push(glm::vec3(0, 0, 4));
+		route2.push(glm::vec3(4, 0, 0));
+	}
+	
+
 	objManager.SetRoute(route);
+	/*objManager.AddCube();
+	objManager.AddCube();
+	objManager.AddCube();
+	objManager.AddCube();
+	objManager.AddCube();
+	objManager.AddCube();
+	objManager.AddCube();*/
+
 
 	while (!display.IsClosed())
 	{
@@ -138,7 +166,7 @@ int main(int argc, char** argv)
 		}
 
 
-		if (currentFrame > 2000 /*&& currentFrame < 5000*/)
+		if (currentFrame > 2000 && currentFrame < 5000)
 		{
 			//objManager.MoveByRoute(deltaTime);
 			objManager.PrintCubes();
@@ -150,7 +178,7 @@ int main(int argc, char** argv)
 		projection.SetFov(camera.m_zoom);
 
 		objManager.Draw(camera, projection);
-		TwDraw();
+		//TwDraw();
 		display.Update();
 		
 		counter += 0.01f;

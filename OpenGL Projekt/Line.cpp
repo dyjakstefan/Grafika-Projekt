@@ -2,7 +2,7 @@
 #include "const.h"
 #include "Options.h"
 
-Line::Line(const std::string & shaderName)
+Line::Line()
 {
 	/*vertices.push_back(Vertex(glm::vec3(0.0f, WS_Y_MAX, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 	indices.push_back(indices.size());*/
@@ -12,11 +12,11 @@ Line::Line(const std::string & shaderName)
 	material.specular = glm::vec3(0.7, 0.6, 0.6);
 	material.shininess = 25.0f;*/
 	material = Options::GetInstance().GetLineColor();
-	shader.Initialize("./res/" + shaderName);
+	//shader.Initialize();
 	//mesh.Initialize(vertices, indices);
 }
 
-void Line::ZmianaKoloru(int i, const std::string & shaderName)
+void Line::ZmianaKoloru(int i)
 {
 	switch (i)
 	{
@@ -43,16 +43,11 @@ Line::~Line()
 
 void Line::AddVertex(glm::vec3 vertex)
 {
-	vertices.push_back(Vertex(vertex , glm::vec3(1.0f, 1.0f, 1.0f)));
-	indices.push_back(indices.size());
-	mesh.Update(vertices[vertices.size()-1], indices[indices.size()-1]);
-}
-
-void Line::Draw(Camera view, Projection projection)
-{
-	shader.Bind();
-	shader.Update(transform, view, projection, material);
-	mesh.Draw(1);
+	mesh.vertices.push_back(vertex);
+	mesh.normals.push_back(glm::vec3(1.0f, 1.0f, 1.0f));
+	mesh.indices.push_back(mesh.indices.size());
+	
+	mesh.Initialize();
 }
 
 

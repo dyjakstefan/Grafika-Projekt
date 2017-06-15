@@ -11,18 +11,17 @@ class Shader
 {
 public:
 	Shader();
-	Shader(const std::string & fileName);
 	~Shader();
 
-	void Initialize(const std::string & fileName);
-	void Bind();
+	void Initialize();
+	inline void Bind() const { glUseProgram(program); };
+	inline GLuint GetProgram() { return program; }
 	void Update(const Transform& model, const Camera& view, const Projection& projection, const Material material);
 	void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string & errorMessage);
 	std::string Shader::LoadShader(const std::string & fileName);
 	GLuint Shader::CreateShader(const std::string & text, GLenum shaderType);
 
 private:
-	static const unsigned int NUM_SHADERS = 2;
 
 	enum
 	{
@@ -75,8 +74,7 @@ private:
 		NUM_UNIFORMS
 	};
 
-	GLuint m_program;
-	GLuint m_shaders[NUM_SHADERS];
-	GLuint m_uniforms[NUM_UNIFORMS];
+	GLuint program;
+	GLuint uniforms[NUM_UNIFORMS];
 };
 

@@ -5,16 +5,14 @@
 class Line : public PrimaryObject
 {
 public:
-	Line(const std::string & shaderName = "lineShader");
-	void ZmianaKoloru(int i, const std::string & shaderName = "lineShader");
+	Line();
+	void ZmianaKoloru(int i);
 	int i;
 	~Line();
 
 	void AddVertex(glm::vec3 vertex);
-	void Draw(Camera view, Projection projection);
 
 protected:
-	std::vector<Vertex> vertices;
-	std::vector<GLuint> indices;
+	
 };
 

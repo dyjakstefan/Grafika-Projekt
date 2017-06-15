@@ -225,7 +225,7 @@ void ObjectManager::Draw(Camera view, Projection projection)
 	}
 	for (int i = 0; i < cubes.size(); i++)
 	{
-		//cubes[i].Update();
+		cubes[i].Update();
 		cubes[i].Draw(view, projection);
 	}
 }
@@ -394,7 +394,7 @@ void ObjectManager::PrintCubes()
 	{
 		glm::vec3 item = routeQ.front();
 		item.x > 0 ? velocity.x : velocity.x *= -1;
-		item.y > 0 ? velocity.y : velocity.y *= -1;
+		item.y > 0 ? velocity.y *= -1 : velocity.y ;
 		item.z > 0 ? velocity.z : velocity.z *= -1;
 
 		if (item.x != 0 && item.y != 0)
@@ -426,7 +426,7 @@ void ObjectManager::PrintCubes()
 		}
 		else if (item.y != 0)
 		{
-			MoveX(velocity.y);
+			MoveY(velocity.y);
 			item.y > 0 ? routeQ.front().y -= 1 : routeQ.front().y += 1;
 			if (routeQ.front().y < 0.5f && routeQ.front().y > -0.5f)
 			{
@@ -435,7 +435,7 @@ void ObjectManager::PrintCubes()
 		}
 		else if (item.z != 0)
 		{
-			MoveX(velocity.z);
+			MoveZ(velocity.z);
 			item.z > 0 ? routeQ.front().z -= 1 : routeQ.front().z += 1;
 			if (routeQ.front().z < 0.5f && routeQ.front().z > -0.5f)
 			{
@@ -444,10 +444,6 @@ void ObjectManager::PrintCubes()
 		}
 
 		AddCube();
-	}
-	else
-	{
-		std::cout << "1";
 	}
 }
 
@@ -464,9 +460,8 @@ void ObjectManager::AddCube()
 	cube->SetMaterial(Material(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.5, 0.0, 0.0), glm::vec3(0.7, 0.6, 0.6), 25.0f));
 	cube->SetPos(headPosition);
 	cube->SetScale(glm::vec3(0.1, 0.1, 0.1));
-	headPosition += 0.1f;
 	cubes.push_back(*cube);
-	cubes[cubes.size() - 1].Update();
+	//cubes[cubes.size() - 1].Update();
 	delete cube;
 }
 
@@ -474,6 +469,8 @@ void ObjectManager::MoveX(float velocity)
 {
 	for (int i = 0; i < objectsX.size(); i++)
 		objectsX[i]->Model().GetPos().x += velocity;
+
+	headPosition.x += velocity;
 }
 
 void ObjectManager::MoveY(float velocity)
@@ -492,4 +489,6 @@ void ObjectManager::MoveZ(float velocity)
 {
 	for (int i = 0; i < objectsZ.size(); i++)
 		objectsZ[i]->Model().GetPos().z += velocity;
+
+	headPosition.z += velocity;
 }

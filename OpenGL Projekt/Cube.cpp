@@ -2,78 +2,71 @@
 
 
 
-Cube::Cube(const std::string & shaderName)
+Cube::Cube()
 {
-	std::vector<Vertex> vertices = {
-		//Front
-		Vertex(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 0.0f, 1.0f)),
-		Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.0f, 0.0f, 1.0f)),
-		Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(0.0f, 0.0f, 1.0f)),
-		Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 0.0f, 1.0f)),
-		//Back
-		Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 0.0f, -1.0f)),
-		Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 0.0f, -1.0f)),
-		Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 0.0f, -1.0f)),
-		Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 0.0f, -1.0f)),
-		//Top
-		Vertex(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.0f)),
-		Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.0f)),
-		Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f)),
-		Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f)),
-		//Bottom
-		Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.0f, -1.0f,  0.0f)),
-		Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(0.0f, -1.0f,  0.0f)),
-		Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(0.0f, -1.0f,  0.0f)),
-		Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, -1.0f,  0.0f)),
-		//Left
-		Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(-1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(-1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(-1.0f,  0.0f,  0.0f)),
-		//Right
-		Vertex(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f,  0.0f,  0.0f)),
-		Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(1.0f,  0.0f,  0.0f)),
-	};
-	this->vertices = vertices;
-	for (int i = 0; i < vertices.size(); i++)
-	{
-		vertices.pop_back();
-	}
-	
-	std::vector<GLuint> indices = {
-		//Front
-		0, 3, 2,
-		0, 2, 1,
-		//Back
-		5, 6, 7,
-		5, 7, 4,
-		//Top
-		10, 11, 9,
-		10, 9, 8,
-		//Bottom
-		12, 13, 15,
-		12, 15, 14,
-		//Left
-		16, 19, 18,
-		16, 18, 17,
-		//Right
-		23, 20, 21,
-		23, 21, 22,
-	};
+	//front
+	mesh.vertices.push_back(glm::vec3(0.5, 0.5, 0.5));
+	mesh.vertices.push_back(glm::vec3(-0.5, 0.5, 0.5));
+	mesh.vertices.push_back(glm::vec3(-0.5, -0.5, 0.5));
+	mesh.vertices.push_back(glm::vec3(0.5, -0.5, 0.5));
 
-	this->indices = indices;
-	for (int i = 0; i < indices.size(); i++)
+	//back
+	mesh.vertices.push_back(glm::vec3(0.5, 0.5, -0.5));
+	mesh.vertices.push_back(glm::vec3(0.5, -0.5, -0.5));
+	mesh.vertices.push_back(glm::vec3(-0.5, -0.5, -0.5));
+	mesh.vertices.push_back(glm::vec3(-0.5, 0.5, -0.5));
+
+	//right
+	mesh.vertices.push_back(glm::vec3(0.5, 0.5, -0.5));
+	mesh.vertices.push_back(glm::vec3(0.5, 0.5, 0.5));
+	mesh.vertices.push_back(glm::vec3(0.5, -0.5, 0.5));
+	mesh.vertices.push_back(glm::vec3(0.5, -0.5, -0.5));
+
+	//left
+	mesh.vertices.push_back(glm::vec3(-0.5, 0.5, 0.5));
+	mesh.vertices.push_back(glm::vec3(-0.5, 0.5, -0.5));
+	mesh.vertices.push_back(glm::vec3(-0.5, -0.5, -0.5));
+	mesh.vertices.push_back(glm::vec3(-0.5, -0.5, 0.5));
+
+	//up
+	mesh.vertices.push_back(glm::vec3(0.5, 0.5, -0.5));
+	mesh.vertices.push_back(glm::vec3(-0.5, 0.5, -0.5));
+	mesh.vertices.push_back(glm::vec3(-0.5, 0.5, 0.5));
+	mesh.vertices.push_back(glm::vec3(0.5, 0.5, 0.5));
+
+	//bottom
+	mesh.vertices.push_back(glm::vec3(0.5, -0.5, 0.5));
+	mesh.vertices.push_back(glm::vec3(-0.5, -0.5, 0.5));
+	mesh.vertices.push_back(glm::vec3(-0.5, -0.5, -0.5));
+	mesh.vertices.push_back(glm::vec3(0.5, -0.5, -0.5));
+
+	for (size_t i = 0; i < 6; i++)
 	{
-		indices.pop_back();
+		mesh.indices.push_back(i * 4);
+		mesh.indices.push_back(i * 4 + 1);
+		mesh.indices.push_back(i * 4 + 2);
+
+		mesh.indices.push_back(i * 4);
+		mesh.indices.push_back(i * 4 + 2);
+		mesh.indices.push_back(i * 4 + 3);
 	}
+	mesh.normals.resize(24);
+	for (int i = 0; i < 4; i++)
+	{
+		mesh.normals[i] = glm::vec3(0.0f, 0.0f, 1.0f);
+		mesh.normals[i + 4] = glm::vec3(0.0f, 0.0f, -1.0f);
+		mesh.normals[i + 4 * 2] = glm::vec3(1.0f, 0.0f, 0.0f);
+		mesh.normals[i + 4 * 3] = glm::vec3(-1.0f, 0.0f, 1.0f);
+		mesh.normals[i + 4 * 4] = glm::vec3(0.0f, 1.0f, 0.0f);
+		mesh.normals[i + 4 * 5] = glm::vec3(0.0f, -1.0f, 0.0f);
+	}
+
 	material.ambient = glm::vec3(0.0f, 0.1f, 0.06f);
 	material.diffuse = glm::vec3(0.0f, 0.50980392f, 0.50980392f);
 	material.specular = glm::vec3(0.50196078f, 0.50196078f, 0.50196078f);
 	material.shininess = 25.0f;
-	shader.Initialize("./res/" + shaderName);
-	mesh.Initialize(this->vertices, this->indices);
+
+	mesh.Initialize();
 }
 
 
@@ -81,15 +74,9 @@ Cube::~Cube()
 {
 }
 
-void Cube::Draw(Camera view, Projection projection)
-{
-	shader.Bind();
-	shader.Update(transform, view, projection, material);
-	mesh.Draw();
-}
 
 void Cube::Update()
 {
-	shader.Initialize("./res/basicShader");
-	mesh.Initialize(this->vertices, this->indices);
+	//shader.Initialize();
+	mesh.Initialize();
 }

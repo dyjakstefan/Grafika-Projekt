@@ -1,8 +1,6 @@
 #include "PrimaryObject.h"
 
-
-
-PrimaryObject::PrimaryObject()
+PrimaryObject::PrimaryObject() : shader()
 {
 }
 

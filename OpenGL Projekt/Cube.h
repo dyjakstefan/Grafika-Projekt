@@ -5,12 +5,10 @@
 class Cube : public PrimaryObject
 {
 public:
-	Cube(const std::string & shaderName = "basicShader");
+	Cube();
 	~Cube();
-	void Draw(Camera view, Projection projection);
 	void Update();
 private:
-	std::vector<Vertex> vertices;
-	std::vector<GLuint> indices;
+	
 };
 
