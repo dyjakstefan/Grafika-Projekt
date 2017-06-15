@@ -39,6 +39,9 @@ Options::Options()
 	lightColor.diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
 	lightColor.specular = glm::vec3(1.0f, 1.0f, 1.0f);
 	lightColor.shininess = 0.0f;
+
+	screenWidth = 800;
+	screenHeight = 600;
 }
 
 

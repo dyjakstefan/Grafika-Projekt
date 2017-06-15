@@ -1,5 +1,5 @@
 ﻿  main.cpp
-c:\projekty\grafika projekt\opengl projekt\main.cpp(83): warning C4244: 'initializing': conversion from 'Uint32' to 'GLfloat', possible loss of data
-c:\projekty\grafika projekt\opengl projekt\main.cpp(148): warning C4244: 'argument': conversion from 'Sint32' to 'GLfloat', possible loss of data
+c:\projekty\grafika projekt\opengl projekt\main.cpp(78): warning C4244: 'initializing': conversion from 'Uint32' to 'GLfloat', possible loss of data
+c:\projekty\grafika projekt\opengl projekt\main.cpp(143): warning C4244: 'argument': conversion from 'Sint32' to 'GLfloat', possible loss of data
   OpenGL Projekt.vcxproj -> C:\Projekty\Grafika Projekt\x64\Debug\OpenGL Projekt.exe
   OpenGL Projekt.vcxproj -> C:\Projekty\Grafika Projekt\x64\Debug\OpenGL Projekt.pdb (Partial PDB)

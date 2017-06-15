@@ -6,6 +6,7 @@
 #include "Mouse.h"
 #include "ObjectManager.h"
 #include "Line.h"
+#include "Options.h"
 #include <AntTweakBar.h>
 
 #pragma comment(lib, "opengl32.lib")
@@ -21,14 +22,14 @@ int main(int argc, char** argv)
 		"Zolty" ,
 		"Cyjan"
 	};
-	Display display(WIDTH, HEIGHT, "OpenGL Projekt");
+	Display display(Options::GetInstance().GetScreenWidth(), Options::GetInstance().GetScreenHeight(), "OpenGL Projekt");
 	SDL_WarpMouseInWindow(display.Window(), WIDTH / 2, HEIGHT / 2);
 	SDL_Event e;
 	int handled;
-	Camera camera(glm::vec3(0.0f, 2.0f, 10.0f));
-	Mouse mouse(WIDTH / 2, HEIGHT / 2);
+	Camera camera(glm::vec3(3.0f, 5.0f, 10.0f));
+	Mouse mouse(Options::GetInstance().GetScreenWidth() / 2, Options::GetInstance().GetScreenHeight() / 2);
 	ObjectManager objManager;
-	int i = 0, j = 0;
+	int i = 0, j = 0, numCubes = 1;
 	TwBar *myBar;
 	GLfloat deltaTime = 0.0f;
 	GLfloat lastFrame = 0.0f;
@@ -36,8 +37,10 @@ int main(int argc, char** argv)
 	Projection projection(camera.m_zoom, 0.1f, 1000.0f);
 
 	TwInit(TW_OPENGL, NULL);
-	TwWindowSize(WIDTH, HEIGHT);
+	TwWindowSize(Options::GetInstance().GetScreenWidth(), Options::GetInstance().GetScreenHeight());
+	
 	myBar = TwNewBar("Menu drukarki");
+
 	TwAddVarRW(myBar, "kol1", TW_TYPE_INT8, &i, "label='Kolor filamentu' ");
 	TwAddVarRW(myBar, "kol2", TW_TYPE_INT8, &j, "label='Kolor oswietlenia' ");
 
@@ -60,7 +63,7 @@ int main(int argc, char** argv)
 	}
 	for (int j = 0; j < 5; j++)
 	{
-		route2.push(glm::vec3(0, 1, 0));
+		route2.push(glm::vec3(0, 3, 0));
 		route2.push(glm::vec3(0, 0, -4));
 		route2.push(glm::vec3(-4, 0, 0));
 		route2.push(glm::vec3(0, 0, 4));
@@ -68,15 +71,7 @@ int main(int argc, char** argv)
 	}
 	
 
-	objManager.SetRoute(route);
-	/*objManager.AddCube();
-	objManager.AddCube();
-	objManager.AddCube();
-	objManager.AddCube();
-	objManager.AddCube();
-	objManager.AddCube();
-	objManager.AddCube();*/
-
+	objManager.SetRoute(route2);
 
 	while (!display.IsClosed())
 	{
@@ -84,7 +79,7 @@ int main(int argc, char** argv)
 		deltaTime = (currentFrame - lastFrame) * 0.001f;
 		lastFrame = currentFrame;
 		SDL_PumpEvents();
-
+		TwDraw();
 		if (SDL_PollEvent(&e))
 		{
 			int x, y;
@@ -166,21 +161,22 @@ int main(int argc, char** argv)
 		}
 
 
-		if (currentFrame > 2000 && currentFrame < 5000)
+
+		if (currentFrame > 2000)
 		{
 			//objManager.MoveByRoute(deltaTime);
 			objManager.PrintCubes();
 		}
 
-
+		display.UpdateSize();
 		display.Clear(0.85f, 0.98f, 0.98f, 1.0f);
 
 		projection.SetFov(camera.m_zoom);
 
 		objManager.Draw(camera, projection);
-		//TwDraw();
+		TwRefreshBar(myBar);
+		TwDraw();
 		display.Update();
-		
 		counter += 0.01f;
 	}
 	TwTerminate();

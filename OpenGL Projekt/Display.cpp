@@ -5,6 +5,9 @@
 
 Display::Display(int width, int height, const std::string& title)
 {
+	oldWitdth = width;
+	oldHeight = height;
+
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
@@ -14,9 +17,9 @@ Display::Display(int width, int height, const std::string& title)
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
 
-	m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL);
+	m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	m_glContext = SDL_GL_CreateContext(m_window);
-
+	
 	GLenum status = glewInit();
 
 	if (status != GLEW_OK)
@@ -33,6 +36,7 @@ Display::Display(int width, int height, const std::string& title)
 	glEnable(GL_FRAMEBUFFER_SRGB);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+	glDisable(GL_SCISSOR_TEST);
 	glCullFace(GL_BACK);
 }
 
@@ -62,6 +66,20 @@ bool Display::IsClosed()
 void Display::Close()
 {
 	m_isClosed = true;
+}
+
+void Display::UpdateSize()
+{
+	SDL_GetWindowSize(m_window, &newWidth, &newHeight);
+
+	if (oldWitdth != newWidth || oldHeight != newHeight)
+	{
+		oldWitdth = newWidth;
+		oldHeight = newHeight;
+		Options::GetInstance().SetScreenWidth(oldWitdth);
+		Options::GetInstance().SetScreenHeight(oldHeight);
+		glViewport(0, 0, oldWitdth, oldHeight);
+	}
 }
 
 SDL_Window * Display::Window()
