@@ -8,6 +8,8 @@ public:
 	Cube();
 	~Cube();
 	void Update();
+
+	void AddUvs();
 private:
 	
 };

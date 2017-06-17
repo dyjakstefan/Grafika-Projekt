@@ -17,9 +17,20 @@ ObjectManager::ObjectManager(): iglica(100)
 	route.push_back(glm::vec3(-0.7, 0.0, 0.0));
 	route.push_back(glm::vec3(0.0, 0.0, -0.4));
 
-	ziemia.SetScale(glm::vec3(30.0f, 1.0f, 30.0f));
-	ziemia.Model().GetPos().y = -1.5f;
-	ziemia.SetMaterial(Material(glm::vec3(0.1, 0.1, 0.1), glm::vec3(0.20, 0.25, 0.25), glm::vec3(0.5, 0.5, 0.5), 25));
+	floor.SetScale(glm::vec3(30.0f, 30.0f, 1.0f));
+	floor.Model().GetPos().y = -1.0f;
+	floor.Model().GetRot().x = -1.57f;
+	//ziemia.SetMaterial(Material(glm::vec3(0.1, 0.1, 0.1), glm::vec3(0.20, 0.25, 0.25), glm::vec3(0.5, 0.5, 0.5), 25));
+	floor.SetMaterial(Material::white);
+	
+	TextureManager::GetInstance().LoadTexture("res/metal_2_dif.png");
+	TextureManager::GetInstance().LoadTexture("res/metal_2_nor.png");
+	TextureManager::GetInstance().LoadTexture("res/metal_2_spec.png");
+	
+	floor.material.diffuseTexture = &TextureManager::GetInstance().textures[0];
+	floor.material.normalMap = &TextureManager::GetInstance().textures[1];
+	floor.material.specularTexture = &TextureManager::GetInstance().textures[2];
+
 
 	stol.SetScale(glm::vec3(3.0f, 0.1f, 3.0f));
 	stol.SetPos(glm::vec3(0.0f, 1.89f, 0.0f));
@@ -164,7 +175,7 @@ ObjectManager::ObjectManager(): iglica(100)
 	iglica.SetScale(glm::vec3(0.2f, 0.2f, 0.2f));
 	iglica.Model().GetPos().y = 2.05f;
 
-	objectsToDraw.push_back(&ziemia);
+	objectsToDraw.push_back(&floor);
 	objectsToDraw.push_back(&podloga);
 	objectsToDraw.push_back(&stol);
 	objectsToDraw.push_back(&bottom1);

@@ -5,6 +5,7 @@
 #include "Projection.h"
 #include "Camera.h"
 #include "Material.h"
+#include "TextureManager.h"
 #include <glm/gtc/type_ptr.hpp>
 
 class Shader
@@ -13,7 +14,7 @@ public:
 	Shader();
 	~Shader();
 
-	void Initialize();
+	void Initialize(const std::string& fileName = "./res/basicShader");
 	inline void Bind() const { glUseProgram(program); };
 	inline GLuint GetProgram() { return program; }
 	void Update(const Transform& model, const Camera& view, const Projection& projection, const Material material);

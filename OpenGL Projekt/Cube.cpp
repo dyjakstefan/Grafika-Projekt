@@ -80,3 +80,7 @@ void Cube::Update()
 	//shader.Initialize();
 	mesh.Initialize();
 }
+
+void Cube::AddUvs()
+{
+}

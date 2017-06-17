@@ -8,12 +8,14 @@
 #include "Line.h"
 #include "Options.h"
 #include <AntTweakBar.h>
-
+#include "TextureManager.h"
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glu32.lib")
 
 int main(int argc, char** argv)
 {
+	
+
 	std::string kolor, kolory[6] = {
 		"Czerwony",
 		"Czarny" ,
@@ -40,7 +42,6 @@ int main(int argc, char** argv)
 	TwWindowSize(Options::GetInstance().GetScreenWidth(), Options::GetInstance().GetScreenHeight());
 	
 	myBar = TwNewBar("Menu drukarki");
-
 	TwAddVarRW(myBar, "kol1", TW_TYPE_INT8, &i, "label='Kolor filamentu' ");
 	TwAddVarRW(myBar, "kol2", TW_TYPE_INT8, &j, "label='Kolor oswietlenia' ");
 
@@ -79,7 +80,7 @@ int main(int argc, char** argv)
 		deltaTime = (currentFrame - lastFrame) * 0.001f;
 		lastFrame = currentFrame;
 		SDL_PumpEvents();
-		TwDraw();
+
 		if (SDL_PollEvent(&e))
 		{
 			int x, y;
@@ -175,7 +176,7 @@ int main(int argc, char** argv)
 
 		objManager.Draw(camera, projection);
 		TwRefreshBar(myBar);
-		TwDraw();
+		//TwDraw();
 		display.Update();
 		counter += 0.01f;
 	}

@@ -8,6 +8,8 @@
 #include "Camera.h"
 #include "SDL_events.h"
 #include "Line.h"
+#include "Quad.h"
+#include "TextureManager.h"
 
 class ObjectManager
 {
@@ -42,8 +44,8 @@ private:
 	Cube bottom1, bottom2, bottom3, bottom4;
 	Cube top1, top2, top3, top4;
 	Cube middle1, middle2, middle3, middle4, middle5, middle6, middle7, middle8;
-	Cube ziemia;
-
+	//Cube ziemia;
+	Quad floor;
 	Cone iglica;
 
 	bool lineMode;

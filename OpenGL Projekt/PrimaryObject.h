@@ -22,11 +22,11 @@ public:
 	glm::vec3 GetRot() { return transform.GetRot(); }
 	glm::vec3 GetScale() { return transform.GetScale(); }
 	Material GetMaterial() { return material; }
-
+	Material material;
+	
 protected:
 	Transform transform;
 	Mesh mesh;
 	Shader shader;
-	Material material;
 };
 

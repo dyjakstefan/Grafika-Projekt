@@ -16,9 +16,14 @@ public:
 	std::vector<glm::vec3> vertices;
 	std::vector<GLuint> indices;
 	std::vector<glm::vec3> normals;
-
+	std::vector<glm::vec3> colors;
+	std::vector<glm::vec2> uvs;
+	void RecalculateNormals();
 private:
 	GLuint VBO, EBO, VAO, VBONorm;
+	GLuint VBOuv, VBOClr;
 	unsigned int m_drawCount;
+
+	glm::vec3 NormalFromIndices(GLuint a, GLuint b, GLuint c);
 };
 

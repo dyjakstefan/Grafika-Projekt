@@ -14,6 +14,13 @@ void PrimaryObject::Draw(Camera view, Projection projection)
 	shader.Bind();
 	shader.Update(transform, view, projection, material);
 	mesh.Draw();
+	
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
 Transform& PrimaryObject::Model()

@@ -17,11 +17,11 @@ Shader::~Shader()
 	//glDeleteProgram(m_program);
 }
 
-void Shader::Initialize()
+void Shader::Initialize(const std::string& fileName)
 {
 	program = glCreateProgram();
-	GLuint vert = CreateShader(LoadShader("basicShader.vs"), GL_VERTEX_SHADER);
-	GLuint frag = CreateShader(LoadShader("basicShader.frag"), GL_FRAGMENT_SHADER);
+	GLuint vert = CreateShader(LoadShader(fileName + ".vs"), GL_VERTEX_SHADER);
+	GLuint frag = CreateShader(LoadShader(fileName + ".frag"), GL_FRAGMENT_SHADER);
 
 	glAttachShader(program, vert);
 	glAttachShader(program, frag);
@@ -46,6 +46,7 @@ void Shader::Update(const Transform& model, const Camera& camera, const Projecti
 	uniforms[VIEW_U] = glGetUniformLocation(program, "view");
 	uniforms[PROJECTION_U] = glGetUniformLocation(program, "projection");
 	uniforms[VIEWPOS_U] = glGetUniformLocation(program, "viewPos");
+
 	uniforms[M_AMBIENT_U] = glGetUniformLocation(program, "material.ambient");
 	uniforms[M_DIFFUSE_U] = glGetUniformLocation(program, "material.diffuse");
 	uniforms[M_SPECULAR_U] = glGetUniformLocation(program, "material.specular");
@@ -87,6 +88,36 @@ void Shader::Update(const Transform& model, const Camera& camera, const Projecti
 	uniforms[L_CONSTANT_3_U] = glGetUniformLocation(program, "pointLights[3].constant");
 	uniforms[L_LINEAR_3_U] = glGetUniformLocation(program, "pointLights[3].linear");
 	uniforms[L_QUADRATIC_3_U] = glGetUniformLocation(program, "pointLights[3].quadratic");
+
+	if (material.diffuseTexture != nullptr) {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, TextureManager::GetInstance().textures[0]);
+		glUniform1i(glGetUniformLocation(program, "diffuseTex"), 0);
+		glUniform1i(glGetUniformLocation(program, "hasDiffuseMap"), true);
+	}
+	else {
+		glUniform1i(glGetUniformLocation(program, "hasDiffuseMap"), false);
+	}
+
+	if (material.normalMap != nullptr) {
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, TextureManager::GetInstance().textures[1]);
+		glUniform1i(glGetUniformLocation(program, "hasNormalMap"), true);
+		glUniform1i(glGetUniformLocation(program, "normalMap"), 1);
+	}
+	else {
+		glUniform1i(glGetUniformLocation(program, "hasNormalMap"), false);
+	}
+
+	if (material.specularTexture != nullptr) {
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, TextureManager::GetInstance().textures[2]);
+		glUniform1i(glGetUniformLocation(program, "specularTex"),2);
+		glUniform1i(glGetUniformLocation(program, "hasSpecularMap"), true);
+	}
+	else {
+		glUniform1i(glGetUniformLocation(program, "hasSpecularMap"), false);
+	}
 
 	glUniformMatrix4fv(uniforms[MODEL_U], 1, GL_FALSE, glm::value_ptr(model.GetModel()));
 	glUniformMatrix4fv(uniforms[VIEW_U], 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));

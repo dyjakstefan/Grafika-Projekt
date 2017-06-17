@@ -52,6 +52,7 @@ Cone::Cone(int points)
 	material.specular = glm::vec3(0.774f, 0.774f, 0.774f);
 	material.shininess = 60.0f;
 
+	mesh.RecalculateNormals();
 	mesh.Initialize();
 }
 
