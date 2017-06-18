@@ -9,13 +9,13 @@
 #include "Options.h"
 #include <AntTweakBar.h>
 #include "TextureManager.h"
+
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glu32.lib")
 
 int main(int argc, char** argv)
 {
-	
-
+		
 	std::string kolor, kolory[6] = {
 		"Czerwony",
 		"Czarny" ,
@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 	Display display(Options::GetInstance().GetScreenWidth(), Options::GetInstance().GetScreenHeight(), "OpenGL Projekt");
 	SDL_WarpMouseInWindow(display.Window(), WIDTH / 2, HEIGHT / 2);
 	SDL_Event e;
-	int handled;
+	int handled = 0;
 	Camera camera(glm::vec3(3.0f, 5.0f, 10.0f));
 	Mouse mouse(Options::GetInstance().GetScreenWidth() / 2, Options::GetInstance().GetScreenHeight() / 2);
 	ObjectManager objManager;
@@ -42,8 +42,11 @@ int main(int argc, char** argv)
 	TwWindowSize(Options::GetInstance().GetScreenWidth(), Options::GetInstance().GetScreenHeight());
 	
 	myBar = TwNewBar("Menu drukarki");
-	TwAddVarRW(myBar, "kol1", TW_TYPE_INT8, &i, "label='Kolor filamentu' ");
-	TwAddVarRW(myBar, "kol2", TW_TYPE_INT8, &j, "label='Kolor oswietlenia' ");
+
+	TwAddVarRW(myBar, "NumCubes", TW_TYPE_INT32, &numCubes,
+		" label='Number of cubes' min=1 max=100 keyIncr=c keyDecr=v help='Defines the number of cubes in the scene.' ");
+	TwAddVarRW(myBar, "kol1", TW_TYPE_INT8, &i, "label='Kolor filamentu' keyIncr=z");
+	TwAddVarRW(myBar, "kol2", TW_TYPE_INT8, &j, "label='Kolor oswietlenia' keyIncr=x");
 
 	//TwAddButton(myBar, "comment1", NULL, NULL, " label='Life is like a box a chocolates' ");
 	std::queue<glm::vec3> route;
@@ -89,31 +92,42 @@ int main(int argc, char** argv)
 
 			if (e.type == SDL_QUIT)
 				display.Close();
+			if(e.key.keysym.sym == 'c')
+				TwKeyPressed('c', TW_KMOD_NONE);
 
 			handled = TwEventSDL(&e, SDL_MAJOR_VERSION, SDL_MINOR_VERSION);
 
 			//Menu
 			if (!handled)
 			{
+				TwMouseMotion(x, y);
 				switch (e.type)
 				{
 				case SDL_KEYDOWN:
-					if (e.key.keysym.sym == 'p')
+					if (e.key.keysym.sym == 'z')
 					{
-						if (i < 7)
-							i++;
-						else
-							i = 0;
+						TwKeyPressed('z', TW_KMOD_NONE);
 					}
-					if (e.key.keysym.sym == 'o')
+					if (e.key.keysym.sym == 'x')
 					{
-						if (j < 7)
-							j++;
-						else
-							j = 0;
+						TwKeyPressed('x', TW_KMOD_NONE);
 					}
+					if (e.key.keysym.sym == 'c')
+						TwKeyPressed('c', TW_KMOD_NONE);
+					if (e.key.keysym.sym == 'v')
+						TwKeyPressed('v', TW_KMOD_NONE);
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+					if(e.button.button == SDL_BUTTON_LEFT)
+						TwMouseButton(TW_MOUSE_PRESSED, TW_MOUSE_LEFT);
+					break;
+				case SDL_MOUSEBUTTONUP:
+					if(e.button.button == SDL_BUTTON_LEFT)
+						TwMouseButton(TW_MOUSE_RELEASED, TW_MOUSE_LEFT);
 					break;
 				}
+				
+				
 			}
 			//Poruszanie g³owic¹ i sto³em
 
@@ -176,7 +190,7 @@ int main(int argc, char** argv)
 
 		objManager.Draw(camera, projection);
 		TwRefreshBar(myBar);
-		//TwDraw();
+		TwDraw();
 		display.Update();
 		counter += 0.01f;
 	}
