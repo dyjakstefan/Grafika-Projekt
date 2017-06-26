@@ -18,10 +18,8 @@ void TextureManager::LoadTexture(std::string const & filePath)
 	unsigned char *data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, 0);
 	if (data)
 	{
-
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		
-
+	
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else

@@ -61,10 +61,7 @@ Cube::Cube()
 		mesh.normals[i + 4 * 5] = glm::vec3(0.0f, -1.0f, 0.0f);
 	}
 
-	material.ambient = glm::vec3(0.0f, 0.1f, 0.06f);
-	material.diffuse = glm::vec3(0.0f, 0.50980392f, 0.50980392f);
-	material.specular = glm::vec3(0.50196078f, 0.50196078f, 0.50196078f);
-	material.shininess = 25.0f;
+	material = Material::cyanPlastic;
 
 	mesh.Initialize();
 }

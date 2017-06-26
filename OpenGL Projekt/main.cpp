@@ -13,9 +13,23 @@
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glu32.lib")
 
+void TW_CALL Run(void *)
+{
+	Options::GetInstance().Print(true);
+	std::cout << "1";
+}
+void TW_CALL Zapisz(void *)
+{
+	Options::GetInstance().Save();
+}
+void TW_CALL Anuluj(void *)
+{
+	Options::GetInstance().Cancel();
+}
+
 int main(int argc, char** argv)
 {
-		
+
 	std::string kolor, kolory[6] = {
 		"Czerwony",
 		"Czarny" ,
@@ -38,44 +52,39 @@ int main(int argc, char** argv)
 	float counter = 0.0f;
 	Projection projection(camera.m_zoom, 0.1f, 1000.0f);
 
+	Material filamentColor = Options::GetInstance().GetLineColor();
+	Material lightColor = Options::GetInstance().GetLightColor();
+	Shape currShape = Options::GetInstance().GetCurrentShape();
+	
 	TwInit(TW_OPENGL, NULL);
 	TwWindowSize(Options::GetInstance().GetScreenWidth(), Options::GetInstance().GetScreenHeight());
+
+	myBar = TwNewBar("Menu_drukarki");
+	TwDefine(" Menu_drukarki label='Menu drukarki' color='0 0 0' text=light alpha=200");
+
+	TwEnumVal shapeEV[NUM_SHAPES] = { {KOMIN, "Komin"}, {PIRAMIDA, "Piramida"} };
+	TwType shapeType = TwDefineEnum("ShapeType", shapeEV, NUM_SHAPES);
+	TwAddVarRW(myBar, "Shape", shapeType, &currShape, " keyIncr='<' keyDecr='>' ");
+	//TwAddVarRW(myBar, "Wireframe", TW_TYPE_BOOLCPP, &s," key=z ");
+	TwAddVarRW(myBar, "Ambient", TW_TYPE_COLOR3F, &filamentColor.ambient, " group='Kolor filamentu' ");
+	TwAddVarRW(myBar, "Diffuse", TW_TYPE_COLOR3F, &filamentColor.diffuse, " group='Kolor filamentu' ");
+	TwAddVarRW(myBar, "Specular", TW_TYPE_COLOR3F, &filamentColor.specular, " group='Kolor filamentu' ");
+	TwAddVarRW(myBar, "Shininess", TW_TYPE_INT32, &filamentColor.shininess, " label='Shininess' min=1 max=100  group='Kolor filamentu' ");
 	
-	myBar = TwNewBar("Menu drukarki");
+	TwAddVarRW(myBar, "Ambient 2", TW_TYPE_COLOR3F, &lightColor.ambient, " group='Kolor oświetlenia' ");
+	TwAddVarRW(myBar, "Diffuse 2", TW_TYPE_COLOR3F, &lightColor.diffuse, " group='Kolor oświetlenia' ");
+	TwAddVarRW(myBar, "Specular 2", TW_TYPE_COLOR3F, &lightColor.specular, " group='Kolor oświetlenia' ");
 
-	TwAddVarRW(myBar, "NumCubes", TW_TYPE_INT32, &numCubes,
-		" label='Number of cubes' min=1 max=100 keyIncr=c keyDecr=v help='Defines the number of cubes in the scene.' ");
-	TwAddVarRW(myBar, "kol1", TW_TYPE_INT8, &i, "label='Kolor filamentu' keyIncr=z");
-	TwAddVarRW(myBar, "kol2", TW_TYPE_INT8, &j, "label='Kolor oswietlenia' keyIncr=x");
-
-	//TwAddButton(myBar, "comment1", NULL, NULL, " label='Life is like a box a chocolates' ");
+	TwAddButton(myBar, "Start", Run, NULL, "label='Drukuj'");
+	TwAddButton(myBar, "Zapisz", Zapisz, NULL, "label='Zapisz zmiany'");
+	TwAddButton(myBar, "Anuluj", Anuluj, NULL, "label='Anuluj zmiany'");
+	
 	std::queue<glm::vec3> route;
 	route.push(glm::vec3(5, 0, 0));
 	route.push(glm::vec3(0, 5, 0));
 	//route.push(glm::vec3(1, 1, 0));
 	route.push(glm::vec3(0, 0, 5));
 
-	std::queue<glm::vec3> route2;
-	int x = -1;
-	route2.push(glm::vec3(0, 0, 5));
-
-	for (int i = 0; i < 4; i++)
-	{
-		route2.push(glm::vec3(1, 0, 0));
-		route2.push(glm::vec3(0, 0, x * 4));
-		x *= -1;
-	}
-	for (int j = 0; j < 5; j++)
-	{
-		route2.push(glm::vec3(0, 3, 0));
-		route2.push(glm::vec3(0, 0, -4));
-		route2.push(glm::vec3(-4, 0, 0));
-		route2.push(glm::vec3(0, 0, 4));
-		route2.push(glm::vec3(4, 0, 0));
-	}
-	
-
-	objManager.SetRoute(route2);
 
 	while (!display.IsClosed())
 	{
@@ -104,18 +113,7 @@ int main(int argc, char** argv)
 				switch (e.type)
 				{
 				case SDL_KEYDOWN:
-					if (e.key.keysym.sym == 'z')
-					{
-						TwKeyPressed('z', TW_KMOD_NONE);
-					}
-					if (e.key.keysym.sym == 'x')
-					{
-						TwKeyPressed('x', TW_KMOD_NONE);
-					}
-					if (e.key.keysym.sym == 'c')
-						TwKeyPressed('c', TW_KMOD_NONE);
-					if (e.key.keysym.sym == 'v')
-						TwKeyPressed('v', TW_KMOD_NONE);
+					TwKeyPressed(e.key.keysym.sym, TW_KMOD_NONE);
 					break;
 				case SDL_MOUSEBUTTONDOWN:
 					if(e.button.button == SDL_BUTTON_LEFT)
@@ -174,8 +172,6 @@ int main(int argc, char** argv)
 			}
 
 		}
-
-
 
 		if (currentFrame > 2000)
 		{

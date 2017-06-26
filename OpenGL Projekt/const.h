@@ -12,3 +12,9 @@ static const float WS_Y_MIN = -0.4f;
 static const float WS_Y_MAX = 1.95f;
 static const float WS_Z_MIN = -1.31f;
 static const float WS_Z_MAX = 1.31f;
+
+const int NUM_SHAPES = 2;
+enum Shape {
+	KOMIN,
+	PIRAMIDA,
+};

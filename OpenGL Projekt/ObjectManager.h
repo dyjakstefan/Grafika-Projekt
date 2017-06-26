@@ -10,6 +10,7 @@
 #include "Line.h"
 #include "Quad.h"
 #include "TextureManager.h"
+#include "Options.h"
 
 class ObjectManager
 {
@@ -24,7 +25,7 @@ public:
 	void SetRoute(std::queue<glm::vec3> route);
 	void AddCube();
 private:
-	
+	bool* print;
 
 	std::vector<PrimaryObject*> objectsToDraw;
 	std::vector<PrimaryObject*> objectsX;
@@ -48,7 +49,6 @@ private:
 	Quad floor;
 	Cone iglica;
 
-	bool lineMode;
 	float cubeSize;
 
 	Line linia;

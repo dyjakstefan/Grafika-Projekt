@@ -47,10 +47,7 @@ Cone::Cone(int points)
 	mesh.indices.push_back(3 * points);
 	mesh.indices.push_back(points * 2 + 1);
 
-	material.ambient = glm::vec3(0.25f, 0.25f, 0.25f);
-	material.diffuse = glm::vec3(0.4f, 0.4f, 0.4f);
-	material.specular = glm::vec3(0.774f, 0.774f, 0.774f);
-	material.shininess = 60.0f;
+	material = Material::chrome;
 
 	mesh.RecalculateNormals();
 	mesh.Initialize();

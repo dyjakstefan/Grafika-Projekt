@@ -16,26 +16,6 @@ Line::Line()
 	//mesh.Initialize(vertices, indices);
 }
 
-void Line::ZmianaKoloru(int i)
-{
-	switch (i)
-	{
-	case 0:
-		material.ambient = glm::vec3(0.0, 0.0, 0.0);
-		material.diffuse = glm::vec3(0.5, 0.0, 0.0);
-		material.specular = glm::vec3(0.7, 0.6, 0.6);
-		material.shininess = 25.0f;
-		break;
-	case 1:
-		material.ambient = glm::vec3(0.0, 0.0, 0.0);
-		material.diffuse = glm::vec3(0.01, 0.01, 0.01);
-		material.specular = glm::vec3(0.50, 0.50, 0.50);
-		material.shininess = 25.0f;
-		break;
-	}
-}
-
-
 
 Line::~Line()
 {

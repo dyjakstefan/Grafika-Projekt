@@ -43,10 +43,7 @@ void PrimaryObject::SetScale(const glm::vec3 & scale)
 	transform.SetScale(scale);
 }
 
-void PrimaryObject::SetMaterial(const Material material)
+void PrimaryObject::SetMaterial(Material& material)
 {
-	this->material.ambient = material.ambient;
-	this->material.diffuse = material.diffuse;
-	this->material.specular = material.specular;
-	this->material.shininess = material.shininess;
+	this->material = material;
 }

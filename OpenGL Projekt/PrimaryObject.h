@@ -16,7 +16,7 @@ public:
 	void SetPos(const glm::vec3& pos);
 	void SetRot(const glm::vec3& rot);
 	void SetScale(const glm::vec3& scale);
-	void SetMaterial(const Material material);
+	void SetMaterial(Material &material);
 
 	glm::vec3 GetPos() { return transform.GetPos(); }
 	glm::vec3 GetRot() { return transform.GetRot(); }

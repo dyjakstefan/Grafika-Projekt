@@ -4,7 +4,7 @@
 
 ObjectManager::ObjectManager(): iglica(100)
 {
-	lineMode = false;
+	print = &Options::GetInstance().printing;
 	cubeSize = 0.1f;
 	movementSpeed = 1.0f;
 	headPosition = glm::vec3(0.0, WS_Y_MAX, 0.0);
@@ -23,9 +23,9 @@ ObjectManager::ObjectManager(): iglica(100)
 	//ziemia.SetMaterial(Material(glm::vec3(0.1, 0.1, 0.1), glm::vec3(0.20, 0.25, 0.25), glm::vec3(0.5, 0.5, 0.5), 25));
 	floor.SetMaterial(Material::white);
 	
-	TextureManager::GetInstance().LoadTexture("res/metal_2_dif.png");
-	TextureManager::GetInstance().LoadTexture("res/metal_2_nor.png");
-	TextureManager::GetInstance().LoadTexture("res/metal_2_spec.png");
+	TextureManager::GetInstance().LoadTexture("res/hex_2_dif.png");
+	TextureManager::GetInstance().LoadTexture("res/hex_2_nor.png");
+	TextureManager::GetInstance().LoadTexture("res/hex_2_spec.png");
 	
 	floor.material.diffuseTexture = &TextureManager::GetInstance().textures[0];
 	floor.material.normalMap = &TextureManager::GetInstance().textures[1];
@@ -220,7 +220,27 @@ ObjectManager::ObjectManager(): iglica(100)
 	objectsZ.push_back(&mala_prowadnica_pozioma2);
 	objectsZ.push_back(&lozysko_poziome_lewe);
 	objectsZ.push_back(&lozysko_poziome_prawe);
-	
+
+	std::queue<glm::vec3> route2;
+	int x = -1;
+	route2.push(glm::vec3(0, 0, 5));
+
+	for (int i = 0; i < 4; i++)
+	{
+		route2.push(glm::vec3(1, 0, 0));
+		route2.push(glm::vec3(0, 0, x * 4));
+		x *= -1;
+	}
+	for (int j = 0; j < 5; j++)
+	{
+		route2.push(glm::vec3(0, 3, 0));
+		route2.push(glm::vec3(0, 0, -4));
+		route2.push(glm::vec3(-4, 0, 0));
+		route2.push(glm::vec3(0, 0, 4));
+		route2.push(glm::vec3(4, 0, 0));
+	}
+
+	SetRoute(route2);
 }
 
 
@@ -307,6 +327,7 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 		linia.AddVertex(newPosition);
 		headPosition = newPosition;
 	}
+
 }
 
 void ObjectManager::MoveByRoute(GLfloat deltaTime)
@@ -401,60 +422,67 @@ void ObjectManager::MoveByRoute(GLfloat deltaTime)
 void ObjectManager::PrintCubes()
 {
 	glm::vec3 velocity = glm::vec3(cubeSize);
-	if (!routeQ.empty())
+	if (*print)
 	{
-		glm::vec3 item = routeQ.front();
-		item.x > 0 ? velocity.x : velocity.x *= -1;
-		item.y > 0 ? velocity.y *= -1 : velocity.y ;
-		item.z > 0 ? velocity.z : velocity.z *= -1;
+		if (!routeQ.empty())
+		{
+			glm::vec3 item = routeQ.front();
+			item.x > 0 ? velocity.x : velocity.x *= -1;
+			item.y > 0 ? velocity.y *= -1 : velocity.y;
+			item.z > 0 ? velocity.z : velocity.z *= -1;
 
-		if (item.x != 0 && item.y != 0)
-		{
-			MoveX(velocity.x);
-			MoveY(velocity.y);
-			routeQ.pop();
-		}
-		else if (item.x != 0 && item.z != 0)
-		{
-			MoveX(velocity.x);
-			MoveZ(velocity.z);
-			routeQ.pop();
-		}
-		else if (item.y != 0 && item.z != 0)
-		{
-			MoveZ(velocity.z);
-			MoveY(velocity.y);
-			routeQ.pop();
-		}
-		else if (item.x != 0)
-		{
-			MoveX(velocity.x);
-			item.x > 0? routeQ.front().x -= 1: routeQ.front().x += 1;
-			if (routeQ.front().x < 0.5f && routeQ.front().x > -0.5f)
+			if (item.x != 0 && item.y != 0)
 			{
+				MoveX(velocity.x);
+				MoveY(velocity.y);
 				routeQ.pop();
 			}
-		}
-		else if (item.y != 0)
-		{
-			MoveY(velocity.y);
-			item.y > 0 ? routeQ.front().y -= 1 : routeQ.front().y += 1;
-			if (routeQ.front().y < 0.5f && routeQ.front().y > -0.5f)
+			else if (item.x != 0 && item.z != 0)
 			{
+				MoveX(velocity.x);
+				MoveZ(velocity.z);
 				routeQ.pop();
 			}
-		}
-		else if (item.z != 0)
-		{
-			MoveZ(velocity.z);
-			item.z > 0 ? routeQ.front().z -= 1 : routeQ.front().z += 1;
-			if (routeQ.front().z < 0.5f && routeQ.front().z > -0.5f)
+			else if (item.y != 0 && item.z != 0)
 			{
+				MoveZ(velocity.z);
+				MoveY(velocity.y);
 				routeQ.pop();
 			}
-		}
+			else if (item.x != 0)
+			{
+				MoveX(velocity.x);
+				item.x > 0 ? routeQ.front().x -= 1 : routeQ.front().x += 1;
+				if (routeQ.front().x < 0.5f && routeQ.front().x > -0.5f)
+				{
+					routeQ.pop();
+				}
+			}
+			else if (item.y != 0)
+			{
+				MoveY(velocity.y);
+				item.y > 0 ? routeQ.front().y -= 1 : routeQ.front().y += 1;
+				if (routeQ.front().y < 0.5f && routeQ.front().y > -0.5f)
+				{
+					routeQ.pop();
+				}
+			}
+			else if (item.z != 0)
+			{
+				MoveZ(velocity.z);
+				item.z > 0 ? routeQ.front().z -= 1 : routeQ.front().z += 1;
+				if (routeQ.front().z < 0.5f && routeQ.front().z > -0.5f)
+				{
+					routeQ.pop();
+				}
+			}
 
-		AddCube();
+			AddCube();
+		}
+		else
+		{
+			Options::GetInstance().Print(false);
+		}
 	}
 }
 
@@ -468,7 +496,8 @@ void ObjectManager::AddCube()
 	
 	Cube* cube;
 	cube = new Cube();
-	cube->SetMaterial(Material(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.5, 0.0, 0.0), glm::vec3(0.7, 0.6, 0.6), 25.0f));
+	cube->material = Options::GetInstance().GetLineColor();
+	//cube->SetMaterial(Options::GetInstance().GetLineColor());
 	cube->SetPos(headPosition);
 	cube->SetScale(glm::vec3(0.1, 0.1, 0.1));
 	cubes.push_back(*cube);
