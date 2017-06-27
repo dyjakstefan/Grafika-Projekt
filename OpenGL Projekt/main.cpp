@@ -16,7 +16,6 @@
 void TW_CALL Run(void *)
 {
 	Options::GetInstance().Print(true);
-	std::cout << "1";
 }
 void TW_CALL Zapisz(void *)
 {
@@ -29,15 +28,6 @@ void TW_CALL Anuluj(void *)
 
 int main(int argc, char** argv)
 {
-
-	std::string kolor, kolory[6] = {
-		"Czerwony",
-		"Czarny" ,
-		"Zielony" ,
-		"Bialy" ,
-		"Zolty" ,
-		"Cyjan"
-	};
 	Display display(Options::GetInstance().GetScreenWidth(), Options::GetInstance().GetScreenHeight(), "OpenGL Projekt");
 	SDL_WarpMouseInWindow(display.Window(), WIDTH / 2, HEIGHT / 2);
 	SDL_Event e;
@@ -45,15 +35,23 @@ int main(int argc, char** argv)
 	Camera camera(glm::vec3(3.0f, 5.0f, 10.0f));
 	Mouse mouse(Options::GetInstance().GetScreenWidth() / 2, Options::GetInstance().GetScreenHeight() / 2);
 	ObjectManager objManager;
-	int i = 0, j = 0, numCubes = 1;
+
 	TwBar *myBar;
 	GLfloat deltaTime = 0.0f;
 	GLfloat lastFrame = 0.0f;
 	float counter = 0.0f;
 	Projection projection(camera.m_zoom, 0.1f, 1000.0f);
 
-	Material filamentColor = Options::GetInstance().GetLineColor();
-	Material lightColor = Options::GetInstance().GetLightColor();
+	//Material filamentColor = Options::GetInstance().GetLineColor();
+	glm::vec3* ambient = &Options::GetInstance().newLineColor.ambient;
+	glm::vec3* diffuse = &Options::GetInstance().newLineColor.diffuse;
+	glm::vec3* specular = &Options::GetInstance().newLineColor.specular;
+	float* shininess = &Options::GetInstance().newLineColor.shininess;
+
+	//Material lightColor = Options::GetInstance().GetLightColor();
+	glm::vec3* ambientL = &Options::GetInstance().newLightColor.ambient;
+	glm::vec3* diffuseL = &Options::GetInstance().newLightColor.diffuse;
+	glm::vec3* specularL = &Options::GetInstance().newLightColor.specular;
 	Shape currShape = Options::GetInstance().GetCurrentShape();
 	
 	TwInit(TW_OPENGL, NULL);
@@ -66,14 +64,14 @@ int main(int argc, char** argv)
 	TwType shapeType = TwDefineEnum("ShapeType", shapeEV, NUM_SHAPES);
 	TwAddVarRW(myBar, "Shape", shapeType, &currShape, " keyIncr='<' keyDecr='>' ");
 	//TwAddVarRW(myBar, "Wireframe", TW_TYPE_BOOLCPP, &s," key=z ");
-	TwAddVarRW(myBar, "Ambient", TW_TYPE_COLOR3F, &filamentColor.ambient, " group='Kolor filamentu' ");
-	TwAddVarRW(myBar, "Diffuse", TW_TYPE_COLOR3F, &filamentColor.diffuse, " group='Kolor filamentu' ");
-	TwAddVarRW(myBar, "Specular", TW_TYPE_COLOR3F, &filamentColor.specular, " group='Kolor filamentu' ");
-	TwAddVarRW(myBar, "Shininess", TW_TYPE_INT32, &filamentColor.shininess, " label='Shininess' min=1 max=100  group='Kolor filamentu' ");
+	TwAddVarRW(myBar, "Ambient", TW_TYPE_COLOR3F, ambient, " group='Kolor filamentu' ");
+	TwAddVarRW(myBar, "Diffuse", TW_TYPE_COLOR3F, diffuse, " group='Kolor filamentu' ");
+	TwAddVarRW(myBar, "Specular", TW_TYPE_COLOR3F, specular, " group='Kolor filamentu' ");
+	TwAddVarRW(myBar, "Shininess", TW_TYPE_FLOAT, shininess, " label='Shininess' min=1 max=100  group='Kolor filamentu' ");
 	
-	TwAddVarRW(myBar, "Ambient 2", TW_TYPE_COLOR3F, &lightColor.ambient, " group='Kolor oświetlenia' ");
-	TwAddVarRW(myBar, "Diffuse 2", TW_TYPE_COLOR3F, &lightColor.diffuse, " group='Kolor oświetlenia' ");
-	TwAddVarRW(myBar, "Specular 2", TW_TYPE_COLOR3F, &lightColor.specular, " group='Kolor oświetlenia' ");
+	TwAddVarRW(myBar, "Ambient 2", TW_TYPE_COLOR3F, ambientL, " group='Kolor oświetlenia' ");
+	TwAddVarRW(myBar, "Diffuse 2", TW_TYPE_COLOR3F, diffuseL, " group='Kolor oświetlenia' ");
+	TwAddVarRW(myBar, "Specular 2", TW_TYPE_COLOR3F, specularL, " group='Kolor oświetlenia' ");
 
 	TwAddButton(myBar, "Start", Run, NULL, "label='Drukuj'");
 	TwAddButton(myBar, "Zapisz", Zapisz, NULL, "label='Zapisz zmiany'");
@@ -88,6 +86,7 @@ int main(int argc, char** argv)
 
 	while (!display.IsClosed())
 	{
+		Options::GetInstance().SetCurrentShape(currShape);
 		GLfloat currentFrame = SDL_GetTicks();
 		deltaTime = (currentFrame - lastFrame) * 0.001f;
 		lastFrame = currentFrame;
@@ -176,7 +175,7 @@ int main(int argc, char** argv)
 		if (currentFrame > 2000)
 		{
 			//objManager.MoveByRoute(deltaTime);
-			objManager.PrintCubes();
+			objManager.Print();
 		}
 
 		display.UpdateSize();

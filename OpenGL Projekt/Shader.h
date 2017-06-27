@@ -8,6 +8,27 @@
 #include "TextureManager.h"
 #include <glm/gtc/type_ptr.hpp>
 
+struct DirLight {
+	glm::vec3 direction;
+
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
+};
+
+struct PointLight {
+	glm::vec3 position;
+
+	float constant;
+	float linear;
+	float quadratic;
+
+	glm::vec3* ambient;
+	glm::vec3* diffuse;
+	glm::vec3* specular;
+};
+
+
 class Shader
 {
 public:
@@ -74,7 +95,8 @@ private:
 		
 		NUM_UNIFORMS
 	};
-
+	DirLight dirLight;
+	PointLight pointLight;
 	GLuint program;
 	GLuint uniforms[NUM_UNIFORMS];
 };

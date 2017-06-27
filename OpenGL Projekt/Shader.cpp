@@ -8,6 +8,19 @@
 
 Shader::Shader()
 {
+	dirLight.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+	dirLight.diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+	dirLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+	dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
+
+	pointLight.ambient = &Options::GetInstance().GetLightColor().ambient;
+	pointLight.diffuse = &Options::GetInstance().GetLightColor().diffuse;
+	pointLight.specular = &Options::GetInstance().GetLightColor().specular;
+	pointLight.position = glm::vec3(1.5f, 3.5f, 1.5f);
+	pointLight.constant = 1.0f;
+	pointLight.linear = 0.09f;
+	pointLight.quadratic = 0.032f;
+
 	Initialize();
 }
 
@@ -128,42 +141,42 @@ void Shader::Update(const Transform& model, const Camera& camera, const Projecti
 	glUniform3f(uniforms[M_SPECULAR_U], material.specular.x, material.specular.y, material.specular.z);
 	glUniform1f(uniforms[M_SHININESS_U], material.shininess);
 
-	glUniform3f(uniforms[L_DIRECTION_U], -0.2f, -1.0f, -0.3f);
-	glUniform3f(uniforms[L_AMBIENT_U], 0.2f, 0.2f, 0.2f);
-	glUniform3f(uniforms[L_DIFFUSE_U], 0.5f, 0.5f, 0.5f);
-	glUniform3f(uniforms[L_SPECULAR_U], 1.0f, 1.0f, 1.0f);
+	glUniform3f(uniforms[L_DIRECTION_U], dirLight.direction.x, dirLight.direction.y, dirLight.direction.z);
+	glUniform3f(uniforms[L_AMBIENT_U], dirLight.ambient.x, dirLight.ambient.y, dirLight.ambient.z);
+	glUniform3f(uniforms[L_DIFFUSE_U], dirLight.diffuse.x, dirLight.diffuse.y, dirLight.diffuse.z);
+	glUniform3f(uniforms[L_SPECULAR_U], dirLight.specular.x, dirLight.specular.y, dirLight.specular.z);
 
-	glUniform3f(uniforms[L_POSITION_0_U], 1.5f, 3.5f, 1.5f);
-	glUniform3f(uniforms[L_AMBIENT_0_U], 0.05f, 0.05f, 0.05f);
-	glUniform3f(uniforms[L_DIFFUSE_0_U], 0.8f, 0.8f, 0.8f);
-	glUniform3f(uniforms[L_SPECULAR_0_U], 1.0f, 1.0f, 1.0f);
-	glUniform1f(uniforms[L_CONSTANT_0_U], 1.0f);
-	glUniform1f(uniforms[L_LINEAR_0_U], 0.09);
-	glUniform1f(uniforms[L_QUADRATIC_0_U], 0.032);
+	glUniform3f(uniforms[L_POSITION_0_U], pointLight.position.x, pointLight.position.y, pointLight.position.z);
+	glUniform3f(uniforms[L_AMBIENT_0_U], pointLight.ambient->x, pointLight.ambient->y, pointLight.ambient->z);
+	glUniform3f(uniforms[L_DIFFUSE_0_U], pointLight.diffuse->x, pointLight.diffuse->y, pointLight.diffuse->z);
+	glUniform3f(uniforms[L_SPECULAR_0_U], pointLight.specular->x, pointLight.specular->y, pointLight.specular->z);
+	glUniform1f(uniforms[L_CONSTANT_0_U], pointLight.constant);
+	glUniform1f(uniforms[L_LINEAR_0_U], pointLight.linear);
+	glUniform1f(uniforms[L_QUADRATIC_0_U], pointLight.quadratic);
 
-	glUniform3f(uniforms[L_POSITION_1_U], -1.5f, 3.5f, 1.5f);
-	glUniform3f(uniforms[L_AMBIENT_1_U], 0.05f, 0.05f, 0.05f);
-	glUniform3f(uniforms[L_DIFFUSE_1_U], 0.8f, 0.8f, 0.8f);
-	glUniform3f(uniforms[L_SPECULAR_1_U], 1.0f, 1.0f, 1.0f);
-	glUniform1f(uniforms[L_CONSTANT_1_U], 1.0f);
-	glUniform1f(uniforms[L_LINEAR_1_U], 0.09);
-	glUniform1f(uniforms[L_QUADRATIC_1_U], 0.032);
+	glUniform3f(uniforms[L_POSITION_1_U], pointLight.position.x - 3.0f, pointLight.position.y, pointLight.position.z);
+	glUniform3f(uniforms[L_AMBIENT_1_U], pointLight.ambient->x, pointLight.ambient->y, pointLight.ambient->z);
+	glUniform3f(uniforms[L_DIFFUSE_1_U], pointLight.diffuse->x, pointLight.diffuse->y, pointLight.diffuse->z);
+	glUniform3f(uniforms[L_SPECULAR_1_U], pointLight.specular->x, pointLight.specular->y, pointLight.specular->z);
+	glUniform1f(uniforms[L_CONSTANT_1_U], pointLight.constant);
+	glUniform1f(uniforms[L_LINEAR_1_U], pointLight.linear);
+	glUniform1f(uniforms[L_QUADRATIC_1_U], pointLight.quadratic);
 
-	glUniform3f(uniforms[L_POSITION_2_U], 1.5f, 3.5f, -1.5f);
-	glUniform3f(uniforms[L_AMBIENT_2_U], 0.05f, 0.05f, 0.05f);
-	glUniform3f(uniforms[L_DIFFUSE_2_U], 0.8f, 0.8f, 0.8f);
-	glUniform3f(uniforms[L_SPECULAR_2_U], 1.0f, 1.0f, 1.0f);
-	glUniform1f(uniforms[L_CONSTANT_2_U], 1.0f);
-	glUniform1f(uniforms[L_LINEAR_2_U], 0.09);
-	glUniform1f(uniforms[L_QUADRATIC_2_U], 0.032);
+	glUniform3f(uniforms[L_POSITION_2_U], pointLight.position.x, pointLight.position.y, pointLight.position.z - 3.0f);
+	glUniform3f(uniforms[L_AMBIENT_2_U], pointLight.ambient->x, pointLight.ambient->y, pointLight.ambient->z);
+	glUniform3f(uniforms[L_DIFFUSE_2_U], pointLight.diffuse->x, pointLight.diffuse->y, pointLight.diffuse->z);
+	glUniform3f(uniforms[L_SPECULAR_2_U], pointLight.specular->x, pointLight.specular->y, pointLight.specular->z);
+	glUniform1f(uniforms[L_CONSTANT_2_U], pointLight.constant);
+	glUniform1f(uniforms[L_LINEAR_2_U], pointLight.linear);
+	glUniform1f(uniforms[L_QUADRATIC_2_U], pointLight.quadratic);
 
-	glUniform3f(uniforms[L_POSITION_3_U], -1.5f, 3.5f, -1.5f);
-	glUniform3f(uniforms[L_AMBIENT_3_U], 0.05f, 0.05f, 0.05f);
-	glUniform3f(uniforms[L_DIFFUSE_3_U], 0.8f, 0.8f, 0.8f);
-	glUniform3f(uniforms[L_SPECULAR_3_U], 1.0f, 1.0f, 1.0f);
-	glUniform1f(uniforms[L_CONSTANT_3_U], 1.0f);
-	glUniform1f(uniforms[L_LINEAR_3_U], 0.09);
-	glUniform1f(uniforms[L_QUADRATIC_3_U], 0.032);
+	glUniform3f(uniforms[L_POSITION_3_U], pointLight.position.x - 3.0f, pointLight.position.y, pointLight.position.z - 3.0f);
+	glUniform3f(uniforms[L_AMBIENT_3_U], pointLight.ambient->x, pointLight.ambient->y, pointLight.ambient->z);
+	glUniform3f(uniforms[L_DIFFUSE_3_U], pointLight.diffuse->x, pointLight.diffuse->y, pointLight.diffuse->z);
+	glUniform3f(uniforms[L_SPECULAR_3_U], pointLight.specular->x, pointLight.specular->y, pointLight.specular->z);
+	glUniform1f(uniforms[L_CONSTANT_3_U], pointLight.constant);
+	glUniform1f(uniforms[L_LINEAR_3_U], pointLight.linear);
+	glUniform1f(uniforms[L_QUADRATIC_3_U], pointLight.quadratic);
 }
 
 

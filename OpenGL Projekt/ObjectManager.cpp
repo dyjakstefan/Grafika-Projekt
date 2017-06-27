@@ -4,10 +4,13 @@
 
 ObjectManager::ObjectManager(): iglica(100)
 {
+	isStartingPosition = true;
+	deleteCubes = false;
 	print = &Options::GetInstance().printing;
 	cubeSize = 0.1f;
 	movementSpeed = 1.0f;
 	headPosition = glm::vec3(0.0, WS_Y_MAX, 0.0);
+	startingPosition = headPosition;
 
 	route.push_back(glm::vec3(0.0, 0.2, 0.0));
 	route.push_back(glm::vec3(0.7, 0.0, 0.0));
@@ -34,6 +37,9 @@ ObjectManager::ObjectManager(): iglica(100)
 
 	stol.SetScale(glm::vec3(3.0f, 0.1f, 3.0f));
 	stol.SetPos(glm::vec3(0.0f, 1.89f, 0.0f));
+
+	pom1.SetScale(glm::vec3(0.01f, 0.50f, 3.25f));
+	pom1.SetPos(glm::vec3(-1.585f, -0.75f, 0.0f));
 
 	podloga.SetScale(glm::vec3(3.18f, 0.5f, 3.25f));
 	podloga.Model().GetPos().y = -0.75f;
@@ -85,6 +91,9 @@ ObjectManager::ObjectManager(): iglica(100)
 	bottom2.Model().GetPos().x = 1.57f;
 	bottom2.Model().GetPos().y = 3.3f;
 	bottom2.SetScale(glm::vec3(3.12f, 0.5f, 0.1f));
+
+	pom2.SetScale(glm::vec3(0.01f, 0.55f, 3.3f));
+	pom2.SetPos(glm::vec3(-1.62f, 3.32f, 0.0f));
 
 	bottom3.Model().GetRot().y = 1.57f;
 	bottom3.Model().GetPos().x = -1.57f;
@@ -175,6 +184,8 @@ ObjectManager::ObjectManager(): iglica(100)
 	iglica.SetScale(glm::vec3(0.2f, 0.2f, 0.2f));
 	iglica.Model().GetPos().y = 2.05f;
 
+	objectsToDraw.push_back(&pom1);
+	objectsToDraw.push_back(&pom2);
 	objectsToDraw.push_back(&floor);
 	objectsToDraw.push_back(&podloga);
 	objectsToDraw.push_back(&stol);
@@ -221,7 +232,7 @@ ObjectManager::ObjectManager(): iglica(100)
 	objectsZ.push_back(&lozysko_poziome_lewe);
 	objectsZ.push_back(&lozysko_poziome_prawe);
 
-	std::queue<glm::vec3> route2;
+	/*std::queue<glm::vec3> route2;
 	int x = -1;
 	route2.push(glm::vec3(0, 0, 5));
 
@@ -240,7 +251,7 @@ ObjectManager::ObjectManager(): iglica(100)
 		route2.push(glm::vec3(4, 0, 0));
 	}
 
-	SetRoute(route2);
+	SetRoute(route2);*/
 }
 
 
@@ -321,102 +332,84 @@ void ObjectManager::Events(const Uint8 * currentKeyStates, GLfloat deltaTime)
 			newPosition.y += velocity;
 		}
 	}
-
-	if (headPosition != newPosition)
-	{
-		linia.AddVertex(newPosition);
-		headPosition = newPosition;
-	}
-
 }
 
-void ObjectManager::MoveByRoute(GLfloat deltaTime)
+void ObjectManager::MoveToStartingPosition()
 {
-	GLfloat velocity = movementSpeed * deltaTime;
-	int index = (int)route.size() - 1;
-	glm::vec3 newPosition = headPosition;
-	if (index >= 0)
+	if (startingPosition != headPosition && *print == true)
 	{
-		if (route[index].x != 0)
-		{
-			if (abs(route[index].x) < velocity)
-			{
-				MoveX(route[index].x);
-				newPosition.x += route[index].x;
-				route.pop_back();
-			}
-			else
-			{
-				if (route[index].x > 0)
-				{
-					MoveX(velocity);
-					route[index].x -= velocity;
-					newPosition.x += velocity;
-				}
-				else
-				{
-					MoveX(-velocity);
-					route[index].x += velocity;
-					newPosition.x -= velocity;
-				}
-			}
-		}
-		else if (route[index].y != 0)
-		{
-			if (abs(route[index].y) < velocity)
-			{
-				MoveY(-route[index].y);
-				newPosition.y += route[index].y;
-				route.pop_back();
-			}
-			else
-			{
-				if (route[index].y > 0)
-				{
-					MoveY(-velocity);
-					route[index].y -= velocity;
-					newPosition.y += velocity;
-				}
-				else
-				{
-					MoveY(velocity);
-					route[index].y += velocity;
-					newPosition.y -= velocity;
-				}
-			}
-		}
-		else if (route[index].z != 0)
-		{
-			if (abs(route[index].z) < velocity)
-			{
-				MoveZ(route[index].z);
-				newPosition.z += route[index].z;
-				route.pop_back();
+		glm::vec3 offset = startingPosition - headPosition;
+		glm::vec3 velocity = glm::vec3(cubeSize, cubeSize, cubeSize);
+		offset.x > 0 ? velocity.x : velocity.x *= -1;
+		offset.y > 0 ? velocity.y : velocity.y *= -1;
+		offset.z > 0 ? velocity.z : velocity.z *= -1;
 
+		if (offset.x != 0)
+		{
+			if (offset.x < cubeSize && offset.x > -cubeSize)
+			{
+				MoveX(offset.x);
 			}
 			else
 			{
-				if (route[index].z > 0)
-				{
-					MoveZ(velocity);
-					route[index].z -= velocity;
-					newPosition.z += velocity;
-				}
-				else
-				{
-					MoveZ(-velocity);
-					route[index].z += velocity;
-					newPosition.z -= velocity;
-				}
+				MoveX(velocity.x);
 			}
 		}
-
-		if (headPosition != newPosition)
+		if (offset.z != 0)
 		{
-			linia.AddVertex(newPosition);
-			headPosition = newPosition;
+			if (offset.z < cubeSize && offset.z > -cubeSize)
+			{
+				MoveZ(offset.z);
+			}
+			else
+			{
+				MoveZ(velocity.z);
+			}
+		}
+		if (offset.y != 0)
+		{
+			if (offset.y < cubeSize && offset.y > -cubeSize)
+			{
+				MoveY(offset.y);
+			}
+			else
+			{
+				MoveY(velocity.y);
+			}
 		}
 	}
+	else
+	{
+		isStartingPosition = true;
+	}
+}
+
+void ObjectManager::Print()
+{
+	if (Options::GetInstance().newRoute)
+	{
+		SetRoute(Options::GetInstance().GetCurrRoute());
+		isStartingPosition = false;
+		Options::GetInstance().newRoute = false;
+		deleteCubes = true;
+	}
+
+	if (!isStartingPosition)
+	{
+		if (deleteCubes && *print == true)
+		{
+			cubes.clear();
+			deleteCubes = false;
+		}
+		MoveToStartingPosition();
+
+	}
+	else
+	{
+		PrintCubes();
+	}
+
+
 }
 
 void ObjectManager::PrintCubes()
@@ -497,12 +490,11 @@ void ObjectManager::AddCube()
 	Cube* cube;
 	cube = new Cube();
 	cube->material = Options::GetInstance().GetLineColor();
-	//cube->SetMaterial(Options::GetInstance().GetLineColor());
-	cube->SetPos(headPosition);
+	cube->SetPos(glm::vec3(headPosition.x, WS_Y_MAX, headPosition.z));
 	cube->SetScale(glm::vec3(0.1, 0.1, 0.1));
 	cubes.push_back(*cube);
-	//cubes[cubes.size() - 1].Update();
 	delete cube;
+	
 }
 
 void ObjectManager::MoveX(float velocity)
@@ -523,6 +515,8 @@ void ObjectManager::MoveY(float velocity)
 	{
 		cubes[i].Model().GetPos().y += velocity;
 	}
+
+	headPosition.y += velocity;
 }
 
 void ObjectManager::MoveZ(float velocity)

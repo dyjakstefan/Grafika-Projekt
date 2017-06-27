@@ -2,6 +2,7 @@
 #include "Material.h"
 #include "const.h"
 #include <vector>
+#include <queue>
 class Options
 {
 public:
@@ -22,6 +23,8 @@ public:
 	void SetScreenHeight(int height) { screenHeight = height; }
 	Shape GetCurrentShape() { return currentShape; }
 	void SetCurrentShape(Shape shape) { currentShape = shape; }
+	void SetCurrRoute();
+	std::queue<glm::vec3> GetCurrRoute() { return currRoute; }
 	void Save();
 	void Cancel();
 	void Print(bool printing);
@@ -30,9 +33,15 @@ public:
 	Material newLightColor;
 	Material newLineColor;
 	Shape newShape;
+	bool newRoute;
+
 private:
 	Options();
 	Options(const Options&);
+
+	std::queue<glm::vec3> currRoute;
+	std::queue<glm::vec3> route1;
+	std::queue<glm::vec3> route2;
 
 	int screenWidth;
 	int screenHeight;
