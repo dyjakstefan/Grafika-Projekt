@@ -23,7 +23,7 @@ public:
 	void MoveByRoute(GLfloat deltaTime);
 	void MoveToStartingPosition();
 	void Print();
-	void SetRoute(std::queue<glm::vec3> route);
+	void SetRoute(std::queue<glm::vec4> route);
 	void AddCube();
 private:
 	bool* print;
@@ -35,8 +35,7 @@ private:
 	std::vector<PrimaryObject*> objectsY;
 	std::vector<PrimaryObject*> objectsZ;
 	std::vector<Cube> cubes;
-	std::vector<glm::vec3> route;
-	std::queue<glm::vec3> routeQ;
+	std::queue<glm::vec4> routeQ;
 	glm::vec3 headPosition;
 	glm::vec3 startingPosition;
 	Cylinder prowadnica_pionowa_lewa, prowadnica_pionowa_prawa;

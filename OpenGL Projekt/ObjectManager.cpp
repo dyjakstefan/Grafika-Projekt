@@ -12,18 +12,9 @@ ObjectManager::ObjectManager(): iglica(100)
 	headPosition = glm::vec3(0.0, WS_Y_MAX, 0.0);
 	startingPosition = headPosition;
 
-	route.push_back(glm::vec3(0.0, 0.2, 0.0));
-	route.push_back(glm::vec3(0.7, 0.0, 0.0));
-	route.push_back(glm::vec3(0.0, -0.3, 0.0));
-	route.push_back(glm::vec3(0.0, 0.0, 0.5));
-	route.push_back(glm::vec3(0.0, 0.4, 0.0));
-	route.push_back(glm::vec3(-0.7, 0.0, 0.0));
-	route.push_back(glm::vec3(0.0, 0.0, -0.4));
-
 	floor.SetScale(glm::vec3(30.0f, 30.0f, 1.0f));
 	floor.Model().GetPos().y = -1.0f;
 	floor.Model().GetRot().x = -1.57f;
-	//ziemia.SetMaterial(Material(glm::vec3(0.1, 0.1, 0.1), glm::vec3(0.20, 0.25, 0.25), glm::vec3(0.5, 0.5, 0.5), 25));
 	floor.SetMaterial(Material::white);
 	
 	TextureManager::GetInstance().LoadTexture("res/hex_2_dif.png");
@@ -231,27 +222,6 @@ ObjectManager::ObjectManager(): iglica(100)
 	objectsZ.push_back(&mala_prowadnica_pozioma2);
 	objectsZ.push_back(&lozysko_poziome_lewe);
 	objectsZ.push_back(&lozysko_poziome_prawe);
-
-	/*std::queue<glm::vec3> route2;
-	int x = -1;
-	route2.push(glm::vec3(0, 0, 5));
-
-	for (int i = 0; i < 4; i++)
-	{
-		route2.push(glm::vec3(1, 0, 0));
-		route2.push(glm::vec3(0, 0, x * 4));
-		x *= -1;
-	}
-	for (int j = 0; j < 5; j++)
-	{
-		route2.push(glm::vec3(0, 3, 0));
-		route2.push(glm::vec3(0, 0, -4));
-		route2.push(glm::vec3(-4, 0, 0));
-		route2.push(glm::vec3(0, 0, 4));
-		route2.push(glm::vec3(4, 0, 0));
-	}
-
-	SetRoute(route2);*/
 }
 
 
@@ -419,7 +389,7 @@ void ObjectManager::PrintCubes()
 	{
 		if (!routeQ.empty())
 		{
-			glm::vec3 item = routeQ.front();
+			glm::vec4 item = routeQ.front();
 			item.x > 0 ? velocity.x : velocity.x *= -1;
 			item.y > 0 ? velocity.y *= -1 : velocity.y;
 			item.z > 0 ? velocity.z : velocity.z *= -1;
@@ -469,8 +439,12 @@ void ObjectManager::PrintCubes()
 					routeQ.pop();
 				}
 			}
+			std::cout << item.x<<"   "<< item.y<<"   "<<item.z<<"   "<<item.w << std::endl;
+			if (item.w == 1)
+			{
+				AddCube();
+			}
 
-			AddCube();
 		}
 		else
 		{
@@ -479,7 +453,7 @@ void ObjectManager::PrintCubes()
 	}
 }
 
-void ObjectManager::SetRoute(std::queue<glm::vec3> route)
+void ObjectManager::SetRoute(std::queue<glm::vec4> route)
 {
 	this->routeQ = route;
 }

@@ -60,7 +60,7 @@ int main(int argc, char** argv)
 	myBar = TwNewBar("Menu_drukarki");
 	TwDefine(" Menu_drukarki label='Menu drukarki' color='0 0 0' text=light alpha=200");
 
-	TwEnumVal shapeEV[NUM_SHAPES] = { {KOMIN, "Komin"}, {PIRAMIDA, "Piramida"} };
+	TwEnumVal shapeEV[NUM_SHAPES] = { {KOMIN, "Komin"},{ WIEZA, "Wieża" }, {PIRAMIDA, "Piramida"} };
 	TwType shapeType = TwDefineEnum("ShapeType", shapeEV, NUM_SHAPES);
 	TwAddVarRW(myBar, "Shape", shapeType, &currShape, " keyIncr='<' keyDecr='>' ");
 	//TwAddVarRW(myBar, "Wireframe", TW_TYPE_BOOLCPP, &s," key=z ");

@@ -36,6 +36,8 @@ void Options::SetCurrRoute()
 		break;
 	case 1: currRoute = route2;
 		break;
+	case 2: currRoute = route3;
+		break;
 	default: currRoute = route1;
 		break;
 	}
@@ -81,43 +83,89 @@ Options::Options()
 
 	printing = false;
 	newRoute = false;
-	
+
 	int x = -1;
-	route2.push(glm::vec3(0, 0, 5));
+	int z = 1;
+	int y = 1;
 
-	for (int i = 0; i < 4; i++)
+	route2.push(glm::vec4(-4, 0, 0, 0));
+	route2.push(glm::vec4(0, 0, -4, 0));
+	for (int i = 0; i < 8; i++)
 	{
-		route2.push(glm::vec3(1, 0, 0));
-		route2.push(glm::vec3(0, 0, x * 4));
-		x *= -1;
-	}
-	for (int j = 0; j < 5; j++)
-	{
-		route2.push(glm::vec3(0, 3, 0));
-		route2.push(glm::vec3(0, 0, -4));
-		route2.push(glm::vec3(-4, 0, 0));
-		route2.push(glm::vec3(0, 0, 4));
-		route2.push(glm::vec3(4, 0, 0));
+		for (int j = 0; j < 5; j++)
+		{
+			x *= -1;
+			if (j == 0)
+			{
+				route2.push(glm::vec4(0, 0, 5 * x, 1));
+			}
+			else
+			{
+				route2.push(glm::vec4(0, 0, 4 * x, 1));
+			}
+			if (j < 4)
+			{
+				route2.push(glm::vec4(1, 0, 0, 1));
+			}
+		}
+
+		route2.push(glm::vec4(0, 1, 0, 1));
+		route2.push(glm::vec4(-3, 0, 0, 0));
+		route2.push(glm::vec4(-1, 0, 0, 1));
+		route2.push(glm::vec4(0, 0, -3, 0));
+		route2.push(glm::vec4(0, 0, -1, 1));
+		route2.push(glm::vec4(3, 0, 0, 0));
+		route2.push(glm::vec4(1, 0, 0, 1));
+		route2.push(glm::vec4(-4, 0, 0, 0));
+		route2.push(glm::vec4(0, 1, -1, 0));
+		x = -1;
 	}
 
-	route1.push(glm::vec3(0, 0, 5));
+	route1.push(glm::vec4(0, 0, 5, 1));
 
 	x = -1;
 	for (int i = 0; i < 4; i++)
 	{
-		route1.push(glm::vec3(1, 0, 0));
-		route1.push(glm::vec3(0, 0, x * 4));
+		route1.push(glm::vec4(1, 0, 0, 1));
+		route1.push(glm::vec4(0, 0, x * 4, 1));
 		x *= -1;
 	}
 	for (int j = 0; j < 5; j++)
 	{
-		route1.push(glm::vec3(0, 1, 0));
-		route1.push(glm::vec3(0, 0, -4));
-		route1.push(glm::vec3(-4, 0, 0));
-		route1.push(glm::vec3(0, 0, 4));
-		route1.push(glm::vec3(4, 0, 0));
+		route1.push(glm::vec4(0, 1, 0, 1));
+		route1.push(glm::vec4(0, 0, -4, 1));
+		route1.push(glm::vec4(-4, 0, 0, 1));
+		route1.push(glm::vec4(0, 0, 4, 1));
+		route1.push(glm::vec4(4, 0, 0, 1));
 	}
 
+	x = 1;
+	z = 1;
+	route3.push(glm::vec4(-4, 0, 0, 0));
+	route3.push(glm::vec4(0, 0, 4, 0));
+	for (int i = 0; i < 4; i++)
+	{
+		
+		for (int j = 7; j > 2*i; j--)
+		{
+			x *= -1;
+			if (j == 7)
+			{
+				route3.push(glm::vec4(0, 0, (7 - 2 * i) * x, 1));
+			}
+			else
+			{
+				route3.push(glm::vec4(0, 0, (6 - 2 * i) * x, 1));
+			}
+			if (j > (2 * i + 1))
+			{
+				route3.push(glm::vec4(1 * z, 0, 0, 1));
+			}
+		}
+		z *= -1;
+		route3.push(glm::vec4(z, 0, 0, 0));
+		route3.push(glm::vec4(0, 1, 0, 0));
+	}
 }
 
 
