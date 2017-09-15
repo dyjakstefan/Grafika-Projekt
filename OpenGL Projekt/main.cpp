@@ -5,7 +5,6 @@
 #include "Camera.h"
 #include "Mouse.h"
 #include "ObjectManager.h"
-#include "Line.h"
 #include "Options.h"
 #include <AntTweakBar.h>
 #include "TextureManager.h"
@@ -76,13 +75,6 @@ int main(int argc, char** argv)
 	TwAddButton(myBar, "Start", Run, NULL, "label='Drukuj'");
 	TwAddButton(myBar, "Zapisz", Zapisz, NULL, "label='Zapisz zmiany'");
 	TwAddButton(myBar, "Anuluj", Anuluj, NULL, "label='Anuluj zmiany'");
-	
-	std::queue<glm::vec3> route;
-	route.push(glm::vec3(5, 0, 0));
-	route.push(glm::vec3(0, 5, 0));
-	//route.push(glm::vec3(1, 1, 0));
-	route.push(glm::vec3(0, 0, 5));
-
 
 	while (!display.IsClosed())
 	{
@@ -156,7 +148,7 @@ int main(int argc, char** argv)
 			}
 
 			
-			if (e.button.button == SDL_BUTTON_LEFT)
+			if (e.button.button == SDL_BUTTON_RIGHT)
 			{
 				if (mouse.IsPositionChanged(x, y))
 				{
@@ -174,7 +166,6 @@ int main(int argc, char** argv)
 
 		if (currentFrame > 2000)
 		{
-			//objManager.MoveByRoute(deltaTime);
 			objManager.Print();
 		}
 

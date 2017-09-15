@@ -208,9 +208,7 @@ ObjectManager::ObjectManager(): iglica(100)
 	objectsToDraw.push_back(&prowadnica_pozioma_prawa);
 	objectsToDraw.push_back(&mala_prowadnica_pozioma1);
 	objectsToDraw.push_back(&mala_prowadnica_pozioma2);
-	objectsToDraw.push_back(&linia);
 
-	objectsY.push_back(&linia);
 	objectsY.push_back(&stol);
 	objectsX.push_back(&glowica);
 	objectsX.push_back(&iglica);
@@ -439,7 +437,6 @@ void ObjectManager::PrintCubes()
 					routeQ.pop();
 				}
 			}
-			std::cout << item.x<<"   "<< item.y<<"   "<<item.z<<"   "<<item.w << std::endl;
 			if (item.w == 1)
 			{
 				AddCube();

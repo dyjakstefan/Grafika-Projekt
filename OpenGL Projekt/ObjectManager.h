@@ -7,7 +7,6 @@
 #include "Projection.h"
 #include "Camera.h"
 #include "SDL_events.h"
-#include "Line.h"
 #include "Quad.h"
 #include "TextureManager.h"
 #include "Options.h"
@@ -53,8 +52,6 @@ private:
 	Cone iglica;
 
 	float cubeSize;
-
-	Line linia;
 
 	GLfloat movementSpeed;
 

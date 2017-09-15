@@ -1,7 +1,6 @@
 #pragma once
-#include "Vertex.h"
-#include "IndexedModel.h"
 #include <GL/glew.h>
+#include <glm/glm.hpp>
 #include <vector>
 class Mesh
 {
